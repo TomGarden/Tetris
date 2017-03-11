@@ -1,0 +1,5 @@
+需要深入研究的点：
+
+1. 获取设备屏幕大小的最好时机，(我们现在的获取是在加载部分控件之后进行，需要重新绘制控件。我们希望在合适的时机一次完成)
+        当前我们认为onWindowFocusChanged(boolean hasFocus)当hasFocuse为true的时候控件绘制完成
+        [测试通过：]Activity 中的本方法先于 View中的本方法的调用。并且可以获取到在Activity中find的控件的大小，和在空间中所获取的控件大小是一致的

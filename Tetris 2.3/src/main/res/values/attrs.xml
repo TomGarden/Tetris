@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TetrisBeaker">
+        <!--容器背景颜色-->
+        <attr name="backgroundColor" format="color" />
+        <!--格子线的颜色-->
+        <attr name="paneLineColor" format="color" />
+        <!--格子线的宽度单位和像素相关【2016-09-01[关于Paint笔触的了解]】有详解-->
+        <!--如果地址还没变的话http://androidbyeleven.farbox.com/post/e-luo-si-fang-kuai/2016-09-01-guan-yu-paintbi-hong-de-liao-jie-->
+        <attr name="paneLineWidth" format="integer" />
+        <!--格子的宽度单位英寸[1英寸=2.54厘米]-->
+        <attr name="squareSideInch" format="float" />
+        <!--格子间距单位像素-->
+        <attr name="squareSpace" format="integer" />
+    </declare-styleable>
+</resources>

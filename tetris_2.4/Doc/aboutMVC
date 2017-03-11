@@ -1,0 +1,10 @@
+关于MVC:[我们这里好像更像MVP且不管他是什么，我们称之为MVC，并且按自己的理解实现它，随便他叫什么吧。]
+    Model：数据控制层
+    View：视图控制层
+    Controller：Model和View的连接层
+
+    虽然Controller听起来是一个掌控者，但是像所有的掌控者一样，他是为它所掌控的事务服务的。<水可载舟亦可覆舟>
+    所以Controller下面包含两个Service分别面向Model和View。
+
+
+    说起来就拿Beaker控件来说，它索要绘制的数据参数本应该自己最清楚，但是这些数据是可变的，所以我们交给model处理，也就是说Beaker除了知道自己的大小外别的绘制内容是需要请求controlle支援的

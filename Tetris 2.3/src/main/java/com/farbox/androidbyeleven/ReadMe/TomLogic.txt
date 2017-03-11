@@ -1,0 +1,5 @@
+MVC
+Tom希望 Model <--> Controller <--> View 这是我们的数据流动模型。
+Model和View之间不存在任何形式上的数据交流
+
+之前我们理解的是不是不太好，再顺着思路看看吧

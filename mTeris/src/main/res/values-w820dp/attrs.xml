@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TetrisBeaker">
+        <!--格子线的颜色-->
+        <attr name="paneLineColor" format="color"/>
+        <!--格子线的宽度 这里我们应该注意单位用px因为用px通过代码得到的就是原封不动的设置的值-->
+        <attr name="paneLineWidth" format="dimension"/>
+    </declare-styleable>
+</resources>
