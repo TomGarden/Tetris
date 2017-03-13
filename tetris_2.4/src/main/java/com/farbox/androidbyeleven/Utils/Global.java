@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.farbox.androidbyeleven.Controller.Control.GameState;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by kys_8 on 16/9/13,0013. <p>Email:771365380@qq.com</p> <p>Mobile phone:15133350726</p>
  */
@@ -36,4 +39,12 @@ public class Global {
     }
 
 
+    /**
+     * 获取当前系统时间
+     */
+    public static String getCurrentTime() {
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(c.getTime());
+    }
 }

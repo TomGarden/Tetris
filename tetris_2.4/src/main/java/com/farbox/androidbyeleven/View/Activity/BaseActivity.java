@@ -5,6 +5,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.farbox.androidbyeleven.Utils.ExceptionUtils;
 import com.farbox.androidbyeleven.Utils.Global;
 
 /**
@@ -19,6 +20,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ExceptionUtils.getInstance().init();
+
+
         setContentView(this.getLayoutId());
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -29,9 +33,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.beforeView();
         this.initView();
         this.initData();
+
     }
 
-    /**在初始化控件之前执行本方法*/
+    /**
+     * 在初始化控件之前执行本方法
+     */
     protected void beforeView() {
     }
 

@@ -9,7 +9,7 @@ public class LogUtil {
     /**
      * Use for test code.
      */
-    private static final String TAG = "tom.work@foxmail.com";
+    public static final String TAG = "tom.work@foxmail.com";
 
     /**
      * 这个方法将返回调用这个方法的那句代码的位置信息 <p>例: Log.e(MyTag.tag() , "自己的信息");</p> <p>格式【包名.方法名（文件名:行数）】</p>

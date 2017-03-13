@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -91,13 +92,12 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         this.llNextSquare = (LinearLayout) findViewById(R.id.ll_nextSquare);
         this.frameLayout = (FrameLayout) findViewById(R.id.fl_viewGroup);
         this.myTableRow = (MyTableRow) findViewById(R.id.mTableRow);
-//        findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(Global.applicationContext, "测试专用", Toast.LENGTH_LONG).show();
-//                iUserIntent.ready2Play();
-//            }
-//        });
+        findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                throw new RuntimeException("测试抛出异常会发生什么");
+            }
+        });
     }
 
     @Override
