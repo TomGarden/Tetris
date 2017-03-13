@@ -22,11 +22,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(this.getLayoutId());
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        /*透明导航栏*/
+        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         Global.applicationContext = getApplicationContext();
+
+        this.beforeView();
         this.initView();
         this.initData();
+    }
+
+    /**在初始化控件之前执行本方法*/
+    protected void beforeView() {
     }
 
     protected abstract int getLayoutId();

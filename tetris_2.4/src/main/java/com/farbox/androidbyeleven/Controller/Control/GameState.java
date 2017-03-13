@@ -33,7 +33,7 @@ public enum GameState {
     /**
      * 暂停状态
      */
-    pause,
+    /*pause,*/
     /**
      * 游戏结束了
      */

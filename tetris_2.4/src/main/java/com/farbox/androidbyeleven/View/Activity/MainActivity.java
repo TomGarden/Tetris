@@ -1,5 +1,9 @@
 package com.farbox.androidbyeleven.View.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -31,6 +35,41 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
     private FrameLayout frameLayout = null;
     private Switch mSwitch = null;
     private MyTableRow myTableRow = null;
+    private final IntentFilter intentFilter = new IntentFilter();
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Intent.ACTION_SCREEN_OFF://关闭屏幕
+                case Intent.ACTION_CLOSE_SYSTEM_DIALOGS://长按电源键出现关机选项
+                    play2Pause();
+                    break;
+                case Intent.ACTION_SCREEN_ON:
+                    LogUtil.i(LogUtil.msg() + "ACTION_SCREEN_ON");
+                    break;
+                case Intent.ACTION_USER_PRESENT://
+                    LogUtil.i(LogUtil.msg() + "ACTION_USER_PRESENT");
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void beforeView() {
+        super.beforeView();
+        // 屏幕灭屏广播
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        // 屏幕亮屏广播
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        // 屏幕解锁广播
+        intentFilter.addAction(Intent.ACTION_USER_PRESENT);
+        // 当长按电源键弹出“关机”对话或者锁屏时系统会发出这个广播
+        // example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
+        // 所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
+        intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+
+        this.registerReceiver(broadcastReceiver, intentFilter);
+    }
 
     /**
      * 设置即将加载的布局ID
@@ -96,11 +135,11 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (Global.gameState) {
+        switch (Global.getGameState()) {
             case ready:
                 GameThread.getInstance().ready2Play();
                 break;
-            case pause:
+            case noticeGameWait:
                 GameThread.getInstance().pause2Play();
                 break;
             case moving:
@@ -110,5 +149,13 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
                 LogUtil.e(LogUtil.msg() + Global.tipNotOperate);
                 break;
         }
+    }
+
+    private void play2Pause() {
+        if (this.mSwitch.isChecked()) {
+            this.mSwitch.setChecked(false);
+        }
+
+
     }
 }

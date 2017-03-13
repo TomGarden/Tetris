@@ -21,6 +21,10 @@ public class GameThread extends Thread implements IUserIntent {
 
     private Handler mHandler = null;
     private TetrisMoveInteractiveService tetrisMoveInteractiveService;
+    /**
+     * 用于线程等待之前保存线程开始等待时候的游戏状态，当恢复游戏状态的时候从这里找到值并且把本对象置空
+     */
+    private GameState saveState = null;
 
     //region 单例 getInstance();
     private static volatile GameThread instance = null;
@@ -64,7 +68,7 @@ public class GameThread extends Thread implements IUserIntent {
     private int level = 500;
 
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
             while (this.isAlive()) {
                 Thread.sleep(level);
@@ -93,6 +97,8 @@ public class GameThread extends Thread implements IUserIntent {
                     case createTetrisOk:
                         break;
                     case noticeGameWait:
+                        //Toast.makeText(Global.applicationContext, "暂停", Toast.LENGTH_LONG).show();
+                        this.wait();
                         break;
                     case gameOver:
                         Toast.makeText(Global.applicationContext, "子线程应该记录数据，主线程应该显示动画", Toast.LENGTH_LONG).show();
@@ -118,8 +124,9 @@ public class GameThread extends Thread implements IUserIntent {
      * 暂停切换到游戏
      */
     @Override
-    public void pause2Play() {
-
+    public synchronized void pause2Play() {
+        Global.setGameState(this.getSaveState());
+        this.notify();
     }
 
     /**
@@ -127,7 +134,9 @@ public class GameThread extends Thread implements IUserIntent {
      */
     @Override
     public void paly2Pause() {
-
+        this.setSaveState(Global.getGameState());
+        Global.setGameState(GameState.noticeGameWait);
+        LogUtil.i(LogUtil.msg()+"应该后台保存游戏进度");
     }
 
 
@@ -145,5 +154,13 @@ public class GameThread extends Thread implements IUserIntent {
         bundle.putSerializable(Global.msgResult, result);
         message.setData(bundle);
         return message;
+    }
+
+    public GameState getSaveState() {
+        return saveState;
+    }
+
+    public void setSaveState(GameState saveState) {
+        this.saveState = saveState;
     }
 }
