@@ -28,7 +28,7 @@ public class Global {
     /**
      * 这个值的设置应该加一个锁，否则有可能出状况
      */
-    public static GameState gameState = GameState.ready;
+    public static volatile GameState gameState = GameState.ready;
 
     public static GameState getGameState() {
         return gameState;
@@ -37,7 +37,6 @@ public class Global {
     public static void setGameState(GameState gameState) {
         Global.gameState = gameState;
     }
-
 
     /**
      * 获取当前系统时间

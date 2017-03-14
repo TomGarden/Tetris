@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.farbox.androidbyeleven.Controller.Control.MGestureDetector;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
@@ -39,7 +40,12 @@ public class MyTableRow extends TableRow {
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
+        switch (Global.gameState) {
+            case moving:
+                return true;
+            default:
+                return super.onInterceptTouchEvent(ev);
+        }
     }
 
     /**
@@ -59,7 +65,7 @@ public class MyTableRow extends TableRow {
         }
     }
 
-    public void setParam(ITetrisMoveGetterService serverGetter, ITetrisMoveInteractiveService serverInteractive, Beaker beaker) {
-        this.mGestureDetector = new GestureDetector(this.getContext(), new MGestureDetector(beaker, serverGetter, serverInteractive));
+    public void setParam(ITetrisMoveGetterService serverGetter, ITetrisMoveInteractiveService serverInteractive, Beaker beaker, TextView hiScore) {
+        this.mGestureDetector = new GestureDetector(this.getContext(), new MGestureDetector(beaker, hiScore, serverGetter, serverInteractive));
     }
 }

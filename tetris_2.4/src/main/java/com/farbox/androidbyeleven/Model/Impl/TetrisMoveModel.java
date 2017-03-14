@@ -211,7 +211,6 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      *
      * @return 移动动作是否真实发生
      */
-
     public boolean move(MoveDirection direction) {
         switch (direction) {
             case left:
@@ -223,7 +222,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
             case top:
                 return this.move2Top();
             case rotate:
-                LogUtil.i(LogUtil.msg() + "这个旋转尚需精心雕琢，1，从一字型的Tetris看尤为明显，2，矩形是不会真正旋转的");
+                //LogUtil.i(LogUtil.msg() + "这个旋转尚需精心雕琢，1，从一字型的Tetris看尤为明显，2，矩形是不会真正旋转的");
 
                 if (this.getCurrentMatrix().length == 2 && this.getCurrentMatrix().length == this.getCurrentMatrix()[0].length) {
                     LogUtil.i(LogUtil.msg() + "不必旋转");
@@ -235,17 +234,17 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
 
                 Point fixResultPosition = this.fixRoatate(roateResultMatrix, this.getTetrisInBeakerPos());
 
-                Test.printArray(this.getCurrentMatrix());
-                LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[h,v]", this.getTetrisInBeakerPos().y, this.getTetrisInBeakerPos().x));
-                System.out.println("---------------------------");
-                Test.printArray(roateResultMatrix);
+                //Test.printArray(this.getCurrentMatrix());
+                //LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[h,v]", this.getTetrisInBeakerPos().y, this.getTetrisInBeakerPos().x));
+                //System.out.println("---------------------------");
+                //Test.printArray(roateResultMatrix);
 
                 if (fixResultPosition == null) {//意味着位置不用修正
                     fixResultPosition = this.getTetrisInBeakerPos();
                 }
 
-                LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[h,v]", fixResultPosition.y, fixResultPosition.x));
-                System.out.println("---------------------------");
+                //LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[h,v]", fixResultPosition.y, fixResultPosition.x));
+                //System.out.println("---------------------------");
 
                 if (this.isCanExist(roateResultMatrix, fixResultPosition)) {
                     this.setCurrentMatrix(roateResultMatrix);
@@ -284,7 +283,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
             this.getTetrisInBeakerPos().x--;
             return true;
         } else {
-            LogUtil.i(LogUtil.msg() + "已经到达最左边");
+            //LogUtil.i(LogUtil.msg() + "已经到达最左边");
             return false;
         }
     }
@@ -294,7 +293,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
             this.getTetrisInBeakerPos().x++;
             return true;
         } else {
-            LogUtil.i(LogUtil.msg() + "已经到达最右边");
+            //LogUtil.i(LogUtil.msg() + "已经到达最右边");
             return false;
         }
     }
@@ -305,7 +304,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
                 this.getTetrisInBeakerPos().y++;
                 return true;
             } else {
-                LogUtil.i(LogUtil.msg() + "已经到达最下边，应该在粘贴的过程中等待一次移动的时间");
+                //LogUtil.i(LogUtil.msg() + "已经到达最下边，应该在粘贴的过程中等待一次移动的时间");
                 return false;
             }
         }
@@ -314,7 +313,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
 
     private boolean move2Top() {
         if (this.getTetrisInBeakerPos().y - 1 < 0) {
-            LogUtil.i(LogUtil.msg() + "已经到达最顶边");
+            //LogUtil.i(LogUtil.msg() + "已经到达最顶边");
             return false;
         } else {
             this.getTetrisInBeakerPos().y--;
@@ -488,7 +487,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     }
 
     /**
-     * 把tetris粘贴到烧杯矩阵上
+     * 把tetris粘贴到烧杯矩阵上[本类内部调用]
      *
      * @param tetrisMatris:Tetris矩阵
      * @param point:tetris在beakerMatris中的位置，记录的是TetrisMatris中左下角那一块在beakerMatris中的位置
@@ -537,11 +536,11 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      * @param length 总行数
      */
     @Override
-    public void eliminate(int start, int length) {
+    public int eliminate(int start, int length) {
+        int eliminateNum = 0;//已经消除了的行数
         boolean eliminate = true;//消除？
         int[][] beakerMatris = BaseModel.getInstance().getBeakerMatris();
         for (int i = 0, h = start - i; i < length; i++, h--) {
-
             for (int v = 0; v < beakerMatris[0].length; v++) {
                 if (beakerMatris[h][v] == 0) {
                     eliminate = false;
@@ -572,10 +571,13 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
                 h++;
                 length--;
                 i--;
-                LogUtil.e(LogUtil.msg() + "消除了：" + h);
+                //消除统计
+                eliminateNum++;
+                //LogUtil.e(LogUtil.msg() + "消除了：" + h);
             }
             eliminate = true;
         }
+        return eliminateNum;
     }
     //endregion
 

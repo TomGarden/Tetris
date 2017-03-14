@@ -4,9 +4,11 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
+import com.farbox.androidbyeleven.Model.HiScore;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.Beaker;
@@ -21,10 +23,13 @@ import com.farbox.androidbyeleven.View.Weight.TetrisShow;
 public class MHandler extends Handler {
     private ITetrisMoveInteractiveService serverInteractive = null;
     private Beaker beaker = null;
+    private TextView hiScore = null;
 
-    public MHandler(Beaker beaker, ITetrisMoveInteractiveService serverInteractive) {
+
+    public MHandler(Beaker beaker, TextView hiScore, ITetrisMoveInteractiveService serverInteractive) {
         this.serverInteractive = serverInteractive;
         this.beaker = beaker;
+        this.hiScore = hiScore;
     }
 
     @Override
@@ -53,11 +58,15 @@ public class MHandler extends Handler {
                         Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
                     } else {
                         Global.gameState = GameState.eliminating;
-                        this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
+                        int eliminateNum = this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
+                        if (eliminateNum > 0) {
+                            HiScore.getInstance().eliminateNum(eliminateNum);
+                            this.hiScore.setText(""+HiScore.getInstance().getScore());
+                        }
                         this.beaker.invalidate();
-                        Global.gameState = GameState.eliminateOk;
+                        //Global.gameState = GameState.eliminateOk;
+                        Global.setGameState(result);
                     }
-                    Global.gameState = result;
                 }
                 break;
             default:

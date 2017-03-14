@@ -47,7 +47,7 @@ public class TetrisMoveInteractiveService implements ITetrisMoveInteractiveServi
      * @param y
      */
     @Override
-    public void eliminate(int x, int y) {
-        this.interactiveSquareMoveModel.eliminate(x, y);
+    public int eliminate(int x, int y) {
+        return this.interactiveSquareMoveModel.eliminate(x, y);
     }
 }

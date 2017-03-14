@@ -31,7 +31,8 @@ public interface ITetrisMoveModelInteractive {
      *
      * @param x
      * @param y
+     * @return 消除了的行数
      */
-    void eliminate(int x, int y);
+    int eliminate(int x, int y);
 }
 

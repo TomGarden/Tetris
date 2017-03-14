@@ -4,12 +4,14 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farbox.androidbyeleven.Controller.Control.GameState;
 import com.farbox.androidbyeleven.Controller.Control.MoveDirection;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
+import com.farbox.androidbyeleven.Model.HiScore;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.Beaker;
@@ -27,6 +29,7 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
     private ITetrisMoveGetterService serverGetter;
     private ITetrisMoveInteractiveService serverInteractive;
     private Beaker beaker;
+    private TextView hiScore;
 
     /**
      * 灵敏度
@@ -37,10 +40,11 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
      */
     private float left = 0, right = 0, bottom = 0, top = 0;
 
-    public MGestureDetector(Beaker beaker, ITetrisMoveGetterService serverGetter, ITetrisMoveInteractiveService serverInteractive) {
+    public MGestureDetector(Beaker beaker, TextView hiScore, ITetrisMoveGetterService serverGetter, ITetrisMoveInteractiveService serverInteractive) {
         this.beaker = beaker;
         this.serverGetter = serverGetter;
         this.serverInteractive = serverInteractive;
+        this.hiScore = hiScore;
     }
 
 
@@ -108,21 +112,25 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                     if (this.serverInteractive.moveTo(MoveDirection.bottom)) {
                         TetrisMove.getInstance().refreshTetris();
                     } else {
-                        Global.gameState = GameState.pastTetrisIng;
+                        Global.setGameState(GameState.pastTetrisIng);
                         Point eliminateData = this.serverInteractive.tetrisPast2BeakerMatris();
                         this.beaker.invalidate();
                         TetrisMove.getInstance().refreshTetris();
-                        Global.gameState = GameState.pastTetrisOk;
+                        Global.setGameState(GameState.pastTetrisOk);
                         if (eliminateData == null) {
                             Global.setGameState(GameState.gameOver);
                             Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
                         } else {
-                            Global.gameState = GameState.eliminating;
-                            this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
+                            Global.setGameState(GameState.eliminating);
+                            int eliminateNum = this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
+                            if (eliminateNum > 0) {
+                                HiScore.getInstance().eliminateNum(eliminateNum);
+                                this.hiScore.setText(""+HiScore.getInstance().getScore());
+                            }
                             this.beaker.invalidate();
-                            Global.gameState = GameState.eliminateOk;
+                            Global.setGameState(GameState.eliminateOk);
+                            Global.setGameState(GameState.ready);
                         }
-                        Global.gameState = GameState.ready;
                     }
                     this.bottom -= this.serverGetter.getSideAddSpacePix();
                 }

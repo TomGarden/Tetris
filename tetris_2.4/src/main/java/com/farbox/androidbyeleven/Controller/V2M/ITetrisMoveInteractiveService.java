@@ -31,6 +31,7 @@ public interface ITetrisMoveInteractiveService {
      *
      * @param start  开始行，行的索引从上倒下增大，，我们给定的是最下方的行索引
      * @param length 总行数
+     * @return 消除了的行数
      */
-    void eliminate(int x, int y);
+    int eliminate(int start, int length);
 }

@@ -67,6 +67,11 @@ public class ExceptionUtils implements Thread.UncaughtExceptionHandler {
         } else {
             this.handleException(ex);
             LogUtil.i(LogUtil.msg() + "本次异常交给ExceptionUtil处理了");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            System.exit(1);
         }
     }
 
@@ -125,7 +130,7 @@ public class ExceptionUtils implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
 
-        LogUtil.w(LogUtil.msg() + sb.toString());
+        LogUtil.e(LogUtil.msg() + sb.toString());
 
         try {
             long timestamp = System.currentTimeMillis();

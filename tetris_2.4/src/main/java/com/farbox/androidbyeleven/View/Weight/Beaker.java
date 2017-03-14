@@ -92,7 +92,7 @@ public class Beaker extends MyView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        LogUtil.i(LogUtil.msg() + "onDraw(Canvas canvas)");
+        //LogUtil.i(LogUtil.msg() + "onDraw(Canvas canvas)");
         if (this.server == null || this.serverCondition == null) {
             throw new RuntimeException(Global.tipNotInitOver);
         }

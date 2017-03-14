@@ -13,6 +13,7 @@ import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveSetterService;
 import com.farbox.androidbyeleven.R;
 import com.farbox.androidbyeleven.Utils.Global;
+import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.SuperClass.TetrisSquare;
 
 /**
@@ -138,10 +139,17 @@ public class TetrisMove extends TetrisSquare {
         this.setLayoutParams(new FrameLayout.LayoutParams(width, height));
     }
 
+    private String threadName = "无";
+
     /**
      * 刷新俄罗斯方块，也就是刷新俄罗斯方块数组和显示的位置
      */
-    public void refreshTetris() {
+    public synchronized void refreshTetris() {
+        if (!Thread.currentThread().getName().equals(threadName)) {
+            LogUtil.i(LogUtil.msg() + threadName);
+            threadName = Thread.currentThread().getName();
+            LogUtil.i(LogUtil.msg() + threadName);
+        }
         this.refreshSize();
         if (this.serverGetter.getCurrentMatrix() != null) {
             /*当粘贴完成后尚未完成新的交接之前，matrix和position都是null，所以此时，大小设置为零

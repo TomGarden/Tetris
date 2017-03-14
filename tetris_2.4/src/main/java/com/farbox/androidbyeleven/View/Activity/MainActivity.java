@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.farbox.androidbyeleven.Controller.Control.GameThread;
 import com.farbox.androidbyeleven.Controller.Control.MHandler;
@@ -19,6 +20,7 @@ import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveInteractiveServi
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveSetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisShowGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisShowInteractiveService;
+import com.farbox.androidbyeleven.Model.HiScore;
 import com.farbox.androidbyeleven.Model.Impl.BeakerModel;
 import com.farbox.androidbyeleven.Model.Impl.TetrisMoveModel;
 import com.farbox.androidbyeleven.Model.Impl.TetrisShowModel;
@@ -30,12 +32,15 @@ import com.farbox.androidbyeleven.View.Weight.MyTableRow;
 import com.farbox.androidbyeleven.View.Weight.TetrisMove;
 import com.farbox.androidbyeleven.View.Weight.TetrisShow;
 
-public class MainActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private Beaker beaker = null;
     private LinearLayout llNextSquare = null;
     private FrameLayout frameLayout = null;
     private Switch mSwitch = null;
     private MyTableRow myTableRow = null;
+    private TextView hiScore = null;
+    private TextView level = null;
+
     private final IntentFilter intentFilter = new IntentFilter();
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -92,10 +97,17 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         this.llNextSquare = (LinearLayout) findViewById(R.id.ll_nextSquare);
         this.frameLayout = (FrameLayout) findViewById(R.id.fl_viewGroup);
         this.myTableRow = (MyTableRow) findViewById(R.id.mTableRow);
+        this.hiScore = (TextView) findViewById(R.id.tv_score);
+        this.hiScore.setText("" + HiScore.getInstance().getScore());
+        this.level = (TextView) findViewById(R.id.tv_level);
+
+        this.level.setOnClickListener(this);
+        findViewById(R.id.tv_level_title).setOnClickListener(this);
+
         findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                throw new RuntimeException("测试抛出异常会发生什么");
+                //throw new RuntimeException("测试抛出异常会发生什么");
             }
         });
     }
@@ -122,9 +134,10 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         TetrisMove tetrisMove = TetrisMove.getInstance(tetrisMoveGetterService, tetrisMoveSetterService, tetrisMoveInteractiveService);
         this.frameLayout.addView(tetrisMove);
         //④连接Gesture、Controller、Model三者
-        this.myTableRow.setParam(tetrisMoveGetterService, tetrisMoveInteractiveService, this.beaker);
+        this.myTableRow.setParam(tetrisMoveGetterService, tetrisMoveInteractiveService, this.beaker, this.hiScore);
         //先初始化一次Thread,免得以后调用麻烦。
-        GameThread.getInstance(new MHandler(this.beaker, tetrisMoveInteractiveService), tetrisMoveInteractiveService);
+        GameThread.getInstance(new MHandler(this.beaker, this.hiScore, tetrisMoveInteractiveService), tetrisMoveInteractiveService);
+        this.level.setText("" + GameThread.getInstance().getLevel());
     }
 
     /**
@@ -158,4 +171,21 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
 
 
     }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_level:
+            case R.id.tv_level_title:
+                GameThread.getInstance().changeLevel();
+                this.level.setText("" + GameThread.getInstance().getLevel());
+                break;
+        }
+    }
+
 }

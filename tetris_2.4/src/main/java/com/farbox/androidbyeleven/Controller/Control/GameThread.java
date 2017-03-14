@@ -65,7 +65,7 @@ public class GameThread extends Thread implements IUserIntent {
     /**
      * 俄罗斯方块移动间歇时间,作为游戏等级
      */
-    private int level = 500;
+    private int level = 400;
 
     @Override
     public synchronized void run() {
@@ -77,7 +77,7 @@ public class GameThread extends Thread implements IUserIntent {
                         TetrisMove tetrisMove = TetrisMove.getInstance();
                         TetrisShow tetrisShow = TetrisShow.getInstance();
                         tetrisMove.setCurrentMatrix(tetrisShow.getCurrentMatrix());//交接矩阵
-                        this.mHandler.sendMessage(this.packMsg(Global.gameState, GameState.moving));
+                        this.mHandler.sendMessage(this.packMsg(Global.getGameState(), GameState.moving));
                         /*tetrisShow.refreshTetris();
                         tetrisMove.refreshTetris();
                         Global.gameState = GameState.moving;*/
@@ -87,10 +87,10 @@ public class GameThread extends Thread implements IUserIntent {
                         //Model 数据修改
                         if (this.tetrisMoveInteractiveService.moveTo(MoveDirection.bottom)) {
                             //View 界面刷新
-                            this.mHandler.sendMessage(this.packMsg(Global.gameState, null));
+                            this.mHandler.sendMessage(this.packMsg(Global.getGameState(), null));
                             /*tetrisMove.refreshTetris();*/
-                        } else {
-                            this.mHandler.sendMessage(this.packMsg(Global.gameState, GameState.ready));
+                        } else {//去先粘贴
+                            this.mHandler.sendMessage(this.packMsg(Global.getGameState(), GameState.ready));
                         }
                         break;
 
@@ -101,11 +101,10 @@ public class GameThread extends Thread implements IUserIntent {
                         this.wait();
                         break;
                     case gameOver:
-                        Toast.makeText(Global.applicationContext, "子线程应该记录数据，主线程应该显示动画", Toast.LENGTH_LONG).show();
                         LogUtil.i(LogUtil.msg() + "子线程应该记录数据，主线程应该显示动画");
                         return;
                 }
-                LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[level,state]", this.level, Global.gameState));
+                //LogUtil.i(LogUtil.msg() + LogUtil.likeCoordinate("[level,state]", this.level, Global.gameState));
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -136,7 +135,7 @@ public class GameThread extends Thread implements IUserIntent {
     public void paly2Pause() {
         this.setSaveState(Global.getGameState());
         Global.setGameState(GameState.noticeGameWait);
-        LogUtil.i(LogUtil.msg()+"应该后台保存游戏进度");
+        LogUtil.i(LogUtil.msg() + "应该后台保存游戏进度");
     }
 
 
@@ -162,5 +161,17 @@ public class GameThread extends Thread implements IUserIntent {
 
     public void setSaveState(GameState saveState) {
         this.saveState = saveState;
+    }
+
+    public void changeLevel() {
+        if (this.level + 100 > 1000) {
+            this.level = 100;
+        } else {
+            this.level += 100;
+        }
+    }
+
+    public int getLevel() {
+        return this.level;
     }
 }
