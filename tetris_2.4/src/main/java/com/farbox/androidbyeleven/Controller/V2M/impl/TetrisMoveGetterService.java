@@ -76,4 +76,12 @@ public class TetrisMoveGetterService implements ITetrisMoveGetterService {
     public Point getTetrisInBeakerPosI() {
         return iTetrisMoveModelGet.getTetrisInBeakerPosI();
     }
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    @Override
+    public String getMatris2Str() {
+        return iTetrisMoveModelGet.getMatris2Str();
+    }
 }

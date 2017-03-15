@@ -3,6 +3,7 @@ package com.farbox.androidbyeleven.Model.Impl;
 import com.farbox.androidbyeleven.Model.BaseModel;
 import com.farbox.androidbyeleven.Model.ITetrisShowModelGet;
 import com.farbox.androidbyeleven.Model.ITetrisShowModelInteractive;
+import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.MathUtil;
 
@@ -182,6 +183,14 @@ public class TetrisShowModel implements ITetrisShowModelGet, ITetrisShowModelInt
             }
         }
         return this.currentSquareMatrix;
+    }
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    @Override
+    public String getMatris2Str() {
+        return ConvertUtil.array2Str(this.getCurrentMatrix());
     }
 
     /**

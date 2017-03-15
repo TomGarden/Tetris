@@ -18,4 +18,9 @@ public interface ITetrisShowModelGet extends IModelGet {
      * @return
      */
     int[][] getCurrentMatrix();
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    String getMatris2Str();
 }

@@ -9,6 +9,7 @@ import com.farbox.androidbyeleven.Model.ITetrisMoveModelGet;
 import com.farbox.androidbyeleven.Model.ITetrisMoveModelInteractive;
 import com.farbox.androidbyeleven.Model.ITetrisMoveModelSet;
 import com.farbox.androidbyeleven.Test;
+import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.Utils.MathUtil;
@@ -116,6 +117,14 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      */
     public int[][] getCurrentMatrix() {
         return this.currentMatrix;
+    }
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    @Override
+    public String getMatris2Str() {
+        return ConvertUtil.array2Str(this.getCurrentMatrix());
     }
 
     /**

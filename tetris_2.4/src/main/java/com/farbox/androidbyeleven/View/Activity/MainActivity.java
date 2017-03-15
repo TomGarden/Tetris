@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.farbox.androidbyeleven.Controller.Control.GameThread;
 import com.farbox.androidbyeleven.Controller.Control.MHandler;
+import com.farbox.androidbyeleven.Controller.Control.SaveProgress;
 import com.farbox.androidbyeleven.Controller.M2V.impl.BeakerNotify;
 import com.farbox.androidbyeleven.Controller.V2M.impl.BeakerService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveGetterService;
@@ -107,7 +108,22 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //throw new RuntimeException("测试抛出异常会发生什么");
+                LogUtil.i(LogUtil.msg() + "test");
+            }
+        });
+        findViewById(R.id.tv_next_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.i(LogUtil.msg() + "test22222222");
+            }
+        });
+        findViewById(R.id.tv_score_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.i(LogUtil.msg()+"rootHei ="+ findViewById(R.id.ll_root).getHeight());
+                LogUtil.i(LogUtil.msg()+"titleHei ="+ findViewById(R.id.ll_title).getHeight());
+                LogUtil.i(LogUtil.msg()+"imageHei ="+ findViewById(R.id.ib_test).getHeight());
+                LogUtil.i(LogUtil.msg()+"myTableRow ="+ myTableRow.getHeight());
             }
         });
     }

@@ -79,4 +79,6 @@ public class MyView extends View {
         canvas.drawRect(left + ringWidth, top + ringWidth, right - ringWidth, bottom - ringWidth, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
     }
+
+
 }

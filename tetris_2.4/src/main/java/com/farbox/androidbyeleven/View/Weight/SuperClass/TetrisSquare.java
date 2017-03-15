@@ -44,4 +44,9 @@ public abstract class TetrisSquare extends MyView {
      * 刷新俄罗斯方块，也就是刷新俄罗斯方块数组和显示的位置
      */
     public abstract void refreshTetris();
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    public abstract String getMatris2Str();
 }

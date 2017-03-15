@@ -3,6 +3,7 @@ package com.farbox.androidbyeleven.Model;
 import android.util.DisplayMetrics;
 
 import com.farbox.androidbyeleven.Model.Impl.BeakerModel;
+import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 
@@ -170,6 +171,13 @@ public class BaseModel /*implements IModelGet*/ {
 
     public int[][] getBeakerMatris() {
         return this.beakerMatris;
+    }
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    public String getBakerMatris2Str() {
+        return ConvertUtil.array2Str(this.getBeakerMatris());
     }
 
     public void setBeakerMatris(int[][] beakerMatris) {

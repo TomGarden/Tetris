@@ -107,6 +107,14 @@ public class TetrisShow extends TetrisSquare {
     }
 
     /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    @Override
+    public String getMatris2Str() {
+        return serverGetter.getMatris2Str();
+    }
+
+    /**
      * 获取当前正在显示的矩阵
      *
      * @return

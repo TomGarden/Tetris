@@ -163,4 +163,17 @@ public class TetrisMove extends TetrisSquare {
             Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * 获取本控件对应的矩阵的String类型对象//保存内容的格式：行数:列数：矩阵内容String
+     */
+    @Override
+    public String getMatris2Str() {
+        return serverGetter.getMatris2Str();
+    }
+
+    public String getTetrisPos2Str() {
+        Point point = serverGetter.getTetrisInBeakerPosI();
+        return "" + point.x + ":" + point.y;
+    }
 }
