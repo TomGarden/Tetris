@@ -141,7 +141,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      * @return
      */
     @Override
-    public Point getTetrisInBeakerPosI() {
+    public Point getTetrisInBeakerPixPos() {
         int marginHorizontal = BaseModel.getInstance().getMarginHorizentalPix();
         int marginVertical = BaseModel.getInstance().getMarginVerticalPix();
         if (marginHorizontal == Global.notSet || marginVertical == Global.notSet) {
@@ -152,6 +152,16 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
         positionPIX.y = marginVertical + (this.getTetrisInBeakerPos().y + 1) * BaseModel.getInstance().getSideAddSpacePix() - myGetHeight();
 
         return positionPIX;
+    }
+
+    /**
+     * 获取当前俄罗斯方块在烧杯中的位置逻辑坐标
+     *
+     * @return
+     */
+    @Override
+    public Point getTetrisInBeakerLogicPos() {
+        return this.getTetrisInBeakerPos();
     }
     //endregion
 

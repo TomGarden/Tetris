@@ -207,7 +207,6 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
 
             case R.id.ib_menu://菜单按钮
                 LogUtil.i(LogUtil.msg()+this.ibMenu.getHeight());
-
                 break;
         }
     }

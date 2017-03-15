@@ -98,6 +98,11 @@ public class GameThread extends Thread implements IUserIntent {
                         break;
                     case noticeGameWait:
                         //Toast.makeText(Global.applicationContext, "暂停", Toast.LENGTH_LONG).show();
+                        //保存游戏状态，然后wait
+                        SaveProgress sp = new SaveProgress();
+                        sp.saveProgress();
+                        sp.print();
+                        LogUtil.i(LogUtil.msg() + "保存完毕~~");
                         this.wait();
                         break;
                     case gameOver:
@@ -133,8 +138,11 @@ public class GameThread extends Thread implements IUserIntent {
      */
     @Override
     public void paly2Pause() {
+        //首先保存本来的状态
         this.setSaveState(Global.getGameState());
+        //设置最新状态
         Global.setGameState(GameState.noticeGameWait);
+
         LogUtil.i(LogUtil.msg() + "应该后台保存游戏进度");
     }
 

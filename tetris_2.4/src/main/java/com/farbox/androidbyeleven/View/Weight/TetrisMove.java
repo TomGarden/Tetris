@@ -112,7 +112,7 @@ public class TetrisMove extends TetrisSquare {
      * 刷新控件位置
      */
     public void refreshPosition() {
-        Point position = serverGetter.getTetrisInBeakerPosI();
+        Point position = serverGetter.getTetrisInBeakerPixPos();
         if (position != null) {
             this.setX(position.x);
             this.setY(position.y + this.getTop());
@@ -172,8 +172,13 @@ public class TetrisMove extends TetrisSquare {
         return serverGetter.getMatris2Str();
     }
 
-    public String getTetrisPos2Str() {
-        Point point = serverGetter.getTetrisInBeakerPosI();
+    public String getTetrisPixPos2Str() {
+        Point point = serverGetter.getTetrisInBeakerPixPos();
+        return "" + point.x + ":" + point.y;
+    }
+
+    public String getTetrisLogicPos2Str() {
+        Point point = serverGetter.getTetrisInBeakerLogicPos();
         return "" + point.x + ":" + point.y;
     }
 }

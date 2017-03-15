@@ -73,8 +73,18 @@ public class TetrisMoveGetterService implements ITetrisMoveGetterService {
      * @return
      */
     @Override
-    public Point getTetrisInBeakerPosI() {
-        return iTetrisMoveModelGet.getTetrisInBeakerPosI();
+    public Point getTetrisInBeakerPixPos() {
+        return iTetrisMoveModelGet.getTetrisInBeakerPixPos();
+    }
+
+    /**
+     * 获取当前俄罗斯方块在烧杯中的位置逻辑坐标
+     *
+     * @return
+     */
+    @Override
+    public Point getTetrisInBeakerLogicPos() {
+        return iTetrisMoveModelGet.getTetrisInBeakerLogicPos();
     }
 
     /**

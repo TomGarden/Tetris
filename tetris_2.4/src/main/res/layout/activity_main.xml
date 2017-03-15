@@ -28,8 +28,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="-32dp"
             android:layout_weight="10"
-            android:paddingRight="8dp"
             android:background="@drawable/sel_menu"
+            android:paddingRight="8dp"
             android:src="@drawable/menu" />
 
         <TableRow

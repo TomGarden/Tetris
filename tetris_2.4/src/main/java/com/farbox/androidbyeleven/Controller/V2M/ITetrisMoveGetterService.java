@@ -10,9 +10,17 @@ import android.graphics.Point;
 public interface ITetrisMoveGetterService extends ITetrisShowGetterService {
 
     /**
-     * 获取当前俄罗斯方块在烧杯中的位置
+     * 获取当前俄罗斯方块在烧杯中的位置像素坐标
      *
      * @return
      */
-    Point getTetrisInBeakerPosI();
+    Point getTetrisInBeakerPixPos();
+    /**
+     * 获取当前俄罗斯方块在烧杯中的位置逻辑坐标
+     *
+     * @return
+     */
+    Point getTetrisInBeakerLogicPos();
+
+
 }
