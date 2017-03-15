@@ -157,4 +157,7 @@
 
     <!--透明-->
     <color name="transparent">#00ffffff</color>
+    <color name="mColorPrimary">#cccc9e</color>
+    <color name="mColorPrimaryDark">#c0c395</color>
+    <color name="mColorPrimaryDarkDark">#959773</color>
 </resources>

@@ -7,13 +7,13 @@ import android.content.IntentFilter;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.farbox.androidbyeleven.Controller.Control.GameThread;
 import com.farbox.androidbyeleven.Controller.Control.MHandler;
-import com.farbox.androidbyeleven.Controller.Control.SaveProgress;
 import com.farbox.androidbyeleven.Controller.M2V.impl.BeakerNotify;
 import com.farbox.androidbyeleven.Controller.V2M.impl.BeakerService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveGetterService;
@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
     private MyTableRow myTableRow = null;
     private TextView hiScore = null;
     private TextView level = null;
+    private ImageView ibMenu = null;
 
     private final IntentFilter intentFilter = new IntentFilter();
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -101,8 +102,10 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         this.hiScore = (TextView) findViewById(R.id.tv_score);
         this.hiScore.setText("" + HiScore.getInstance().getScore());
         this.level = (TextView) findViewById(R.id.tv_level);
+        this.ibMenu = (ImageView) findViewById(R.id.ib_menu);
 
         this.level.setOnClickListener(this);
+        this.ibMenu.setOnClickListener(this);
         findViewById(R.id.tv_level_title).setOnClickListener(this);
 
         findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
@@ -122,7 +125,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             public void onClick(View v) {
                 LogUtil.i(LogUtil.msg()+"rootHei ="+ findViewById(R.id.ll_root).getHeight());
                 LogUtil.i(LogUtil.msg()+"titleHei ="+ findViewById(R.id.ll_title).getHeight());
-                LogUtil.i(LogUtil.msg()+"imageHei ="+ findViewById(R.id.ib_test).getHeight());
+                LogUtil.i(LogUtil.msg()+"imageHei ="+ findViewById(R.id.ib_menu).getHeight());
                 LogUtil.i(LogUtil.msg()+"myTableRow ="+ myTableRow.getHeight());
             }
         });
@@ -200,6 +203,11 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             case R.id.tv_level_title:
                 GameThread.getInstance().changeLevel();
                 this.level.setText("" + GameThread.getInstance().getLevel());
+                break;
+
+            case R.id.ib_menu://菜单按钮
+                LogUtil.i(LogUtil.msg()+this.ibMenu.getHeight());
+
                 break;
         }
     }
