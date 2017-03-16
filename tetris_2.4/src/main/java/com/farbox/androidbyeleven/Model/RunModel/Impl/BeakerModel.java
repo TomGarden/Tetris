@@ -1,9 +1,9 @@
-package com.farbox.androidbyeleven.Model.Impl;
+package com.farbox.androidbyeleven.Model.RunModel.Impl;
 
 import com.farbox.androidbyeleven.Controller.M2V.IBeakerNotify;
-import com.farbox.androidbyeleven.Model.BaseModel;
-import com.farbox.androidbyeleven.Model.IBeakerModelGet;
-import com.farbox.androidbyeleven.Model.IBeakerModelSet;
+import com.farbox.androidbyeleven.Model.RunModel.BaseModel;
+import com.farbox.androidbyeleven.Model.RunModel.IBeakerModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.IBeakerModelSet;
 import com.farbox.androidbyeleven.Utils.Global;
 
 /**

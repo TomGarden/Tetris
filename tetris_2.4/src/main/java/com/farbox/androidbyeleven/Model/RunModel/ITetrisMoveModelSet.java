@@ -1,4 +1,4 @@
-package com.farbox.androidbyeleven.Model;
+package com.farbox.androidbyeleven.Model.RunModel;
 
 import android.graphics.Point;
 
@@ -15,4 +15,9 @@ public interface ITetrisMoveModelSet {
      * @return
      */
     void setCurrentMatrix(int[][] currentMatrix);
+
+    /**
+     * 设置在背景矩阵中的逻辑位置
+     */
+    void setLogicPos(Point pos);
 }

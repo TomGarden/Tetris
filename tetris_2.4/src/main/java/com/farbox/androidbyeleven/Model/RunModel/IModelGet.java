@@ -1,4 +1,4 @@
-package com.farbox.androidbyeleven.Model;
+package com.farbox.androidbyeleven.Model.RunModel;
 
 /**
  * describe:Model模块中的共享的get手段。

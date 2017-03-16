@@ -33,7 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.beforeView();
         this.initView();
         this.initData();
-
     }
 
     /**

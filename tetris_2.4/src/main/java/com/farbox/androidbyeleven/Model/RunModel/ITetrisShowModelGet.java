@@ -1,4 +1,4 @@
-package com.farbox.androidbyeleven.Model;
+package com.farbox.androidbyeleven.Model.RunModel;
 
 /**
  * Created by Tom on 2016/11/8.

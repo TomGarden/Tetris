@@ -3,7 +3,7 @@ package com.farbox.androidbyeleven.Controller.V2M.impl;
 import android.graphics.Point;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
-import com.farbox.androidbyeleven.Model.ITetrisMoveModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelGet;
 
 /**
  * describe:把自己的需求用接口的形式告知Model，model按接口约定好的内容为Controller提供支持。

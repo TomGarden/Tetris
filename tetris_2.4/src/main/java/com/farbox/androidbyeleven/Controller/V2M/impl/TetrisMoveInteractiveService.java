@@ -4,7 +4,7 @@ import android.graphics.Point;
 
 import com.farbox.androidbyeleven.Controller.Control.MoveDirection;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
-import com.farbox.androidbyeleven.Model.ITetrisMoveModelInteractive;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelInteractive;
 
 /**
  * describe:用户和控件交互

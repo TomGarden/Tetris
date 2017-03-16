@@ -1,7 +1,7 @@
 package com.farbox.androidbyeleven.Controller.V2M.impl;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowGetterService;
-import com.farbox.androidbyeleven.Model.ITetrisShowModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelGet;
 
 /**
  * describe:把自己的需求用接口的形式告知Model，model按接口约定好的内容为Controller提供支持。

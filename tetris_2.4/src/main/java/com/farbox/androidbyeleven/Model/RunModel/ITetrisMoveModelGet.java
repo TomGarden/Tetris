@@ -1,4 +1,4 @@
-package com.farbox.androidbyeleven.Model;
+package com.farbox.androidbyeleven.Model.RunModel;
 
 import android.graphics.Point;
 

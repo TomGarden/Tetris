@@ -1,13 +1,11 @@
 package com.farbox.androidbyeleven.Controller.V2M;
 
-import android.graphics.Point;
-
 /**
  * describe:
  * time: 2017/3/6 7:54
  * email: tom.work@foxmail.com
  */
-public interface ITetrisMoveSetterService {
+public interface ITetrisShowSetterService {
 
     /**
      * 设置当前正在显示的矩阵
@@ -15,9 +13,4 @@ public interface ITetrisMoveSetterService {
      * @return
      */
     void setCurrentMatrix(int[][] currentMatrix);
-
-    /**
-     * 设置在背景矩阵中的逻辑位置
-     */
-    void setLogicPos(Point pos);
 }

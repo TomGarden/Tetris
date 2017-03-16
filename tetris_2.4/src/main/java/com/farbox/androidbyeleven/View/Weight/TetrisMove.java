@@ -181,4 +181,8 @@ public class TetrisMove extends TetrisSquare {
         Point point = serverGetter.getTetrisInBeakerLogicPos();
         return "" + point.x + ":" + point.y;
     }
+
+    public void setTetrisLogicPos(Point pos) {
+        this.serverSetter.setLogicPos(pos);
+    }
 }

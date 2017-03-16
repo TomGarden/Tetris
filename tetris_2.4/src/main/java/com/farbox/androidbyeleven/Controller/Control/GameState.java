@@ -37,6 +37,10 @@ public enum GameState {
     /**
      * 游戏结束了
      */
-    gameOver
+    gameOver,
+    /**
+     * 读取上次的进度
+     */
+    readProgress
 }
 

@@ -7,9 +7,9 @@ import android.widget.LinearLayout;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowInteractiveService;
+import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowSetterService;
 import com.farbox.androidbyeleven.R;
 import com.farbox.androidbyeleven.Utils.Global;
-import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.SuperClass.TetrisSquare;
 
 /**
@@ -23,9 +23,10 @@ import com.farbox.androidbyeleven.View.Weight.SuperClass.TetrisSquare;
  */
 public class TetrisShow extends TetrisSquare {
     private static ITetrisShowGetterService serverGetter;
+    private static ITetrisShowSetterService serverSetter;
     private static ITetrisShowInteractiveService serverInteractive;
 
-    private TetrisShow(Context context, ITetrisShowGetterService serverGetter, ITetrisShowInteractiveService serverInteractive) {
+    private TetrisShow(Context context, ITetrisShowGetterService serverGetter, ITetrisShowSetterService serverSetter, ITetrisShowInteractiveService serverInteractive) {
         super(context);
         this.serverGetter = serverGetter;
         this.serverInteractive = serverInteractive;
@@ -40,11 +41,11 @@ public class TetrisShow extends TetrisSquare {
      * @param server
      * @return
      */
-    public static TetrisShow getInstance(ITetrisShowGetterService server, ITetrisShowInteractiveService serverInteractive) {
+    public static TetrisShow getInstance(ITetrisShowGetterService serverGetter, ITetrisShowSetterService serverSetter, ITetrisShowInteractiveService serverInteractive) {
         if (instance == null) {
             synchronized (TetrisShow.class) {
                 if (serverInteractive == null || serverGetter == null || instance == null) {
-                    instance = new TetrisShow(Global.applicationContext, server, serverInteractive);
+                    instance = new TetrisShow(Global.applicationContext, serverGetter, serverSetter, serverInteractive);
                 }
             }
         }
@@ -130,4 +131,7 @@ public class TetrisShow extends TetrisSquare {
         return size;
     }
 
+    public void setCurrentMatrix(int[][] matrix) {
+        this.serverSetter.setCurrentMatrix(matrix);
+    }
 }

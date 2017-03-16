@@ -1,7 +1,7 @@
 package com.farbox.androidbyeleven.Controller.V2M.impl;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowInteractiveService;
-import com.farbox.androidbyeleven.Model.ITetrisShowModelInteractive;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelInteractive;
 
 /**
  * describe:用户和控件交互

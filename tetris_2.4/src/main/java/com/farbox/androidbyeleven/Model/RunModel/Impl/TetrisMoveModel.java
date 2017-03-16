@@ -1,14 +1,13 @@
-package com.farbox.androidbyeleven.Model.Impl;
+package com.farbox.androidbyeleven.Model.RunModel.Impl;
 
 import android.graphics.Point;
 
 import com.farbox.androidbyeleven.Controller.Control.GameState;
 import com.farbox.androidbyeleven.Controller.Control.MoveDirection;
-import com.farbox.androidbyeleven.Model.BaseModel;
-import com.farbox.androidbyeleven.Model.ITetrisMoveModelGet;
-import com.farbox.androidbyeleven.Model.ITetrisMoveModelInteractive;
-import com.farbox.androidbyeleven.Model.ITetrisMoveModelSet;
-import com.farbox.androidbyeleven.Test;
+import com.farbox.androidbyeleven.Model.RunModel.BaseModel;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelInteractive;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelSet;
 import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
@@ -176,6 +175,16 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     public void setCurrentMatrix(int[][] currentMatrix) {
         this.currentMatrix = currentMatrix;
     }
+
+    /**
+     * 设置在背景矩阵中的逻辑位置
+     *
+     * @param pos
+     */
+    @Override
+    public void setLogicPos(Point pos) {
+        this.setTetrisInBeakerPos(pos);
+    }
     //endregion
 
     //region  ITetrisMoveModelInteractive
@@ -186,29 +195,13 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     private Point getTetrisInBeakerPos() {
         if (tetrisInBeakerPos == null) {
             tetrisInBeakerPos = new Point();
+            LogUtil.i(LogUtil.msg() + "曾经有次BaseModel.getInstance().getBeakerMatris()得到null");
             //首先计算在矩阵中的位置坐标
             tetrisInBeakerPos.x = (BaseModel.getInstance().getBeakerMatris()[0].length - getCurrentMatrix()[0].length) / 2;
             tetrisInBeakerPos.y = 0;
         }
         //应该判断下，当前Tetris在我们求得的Pos处是否覆盖了已经存在的Square
         return this.tetrisInBeakerPos;
-    }
-
-    /**
-     * 当根据一个新的MoveTetris初始化它在Beaker的位置[0,*]的时候判断一下当前初始化的位置是否覆盖了已经存在了的Square，如果覆盖了说明GameOver了
-     *
-     * @return false:GameOver-----------true:gameContinue
-     */
-    private boolean initTetrisInBeakerPosOK(Point tetrisInBeakerPos, int[][] tetrisMatrix) {
-        /*刚初始化完成我们只需要计算一行就ok了:Beaker的首行和Tetris的末行*/
-        for (int i = 0; i < tetrisMatrix[0].length; i++) {
-            if (tetrisMatrix[tetrisMatrix.length - 1][i] == 1 &&
-                    BaseModel.getInstance().getBeakerMatris()[0][tetrisInBeakerPos.x + i] == 1) {
-                Global.setGameState(GameState.gameOver);
-                return false;//游戏结束
-            }
-        }
-        return true;//游戏继续
     }
 
     private void setTetrisInBeakerPos(Point point) {

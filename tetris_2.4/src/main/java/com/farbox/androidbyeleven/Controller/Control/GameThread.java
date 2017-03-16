@@ -3,10 +3,11 @@ package com.farbox.androidbyeleven.Controller.Control;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.farbox.androidbyeleven.Controller.V2M.IUserIntent;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveInteractiveService;
+import com.farbox.androidbyeleven.Model.LocalizeModel.xml.IWriteGameProgress;
+import com.farbox.androidbyeleven.Model.LocalizeModel.xml.impl.GameProgress;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.TetrisMove;
@@ -21,6 +22,7 @@ public class GameThread extends Thread implements IUserIntent {
 
     private Handler mHandler = null;
     private TetrisMoveInteractiveService tetrisMoveInteractiveService;
+    private GameProgress gameProgress;
     /**
      * 用于线程等待之前保存线程开始等待时候的游戏状态，当恢复游戏状态的时候从这里找到值并且把本对象置空
      */
@@ -29,9 +31,10 @@ public class GameThread extends Thread implements IUserIntent {
     //region 单例 getInstance();
     private static volatile GameThread instance = null;
 
-    private GameThread(Handler mHandler, TetrisMoveInteractiveService tetrisMoveInteractiveService) {
+    private GameThread(Handler mHandler, TetrisMoveInteractiveService tetrisMoveInteractiveService, GameProgress gameProgress) {
         this.mHandler = mHandler;
         this.tetrisMoveInteractiveService = tetrisMoveInteractiveService;
+        this.gameProgress = gameProgress;
     }
 
     /**
@@ -39,11 +42,11 @@ public class GameThread extends Thread implements IUserIntent {
      *
      * @return
      */
-    public static GameThread getInstance(Handler mHandler, TetrisMoveInteractiveService tetrisMoveInteractiveService) {
+    public static GameThread getInstance(Handler mHandler, TetrisMoveInteractiveService tetrisMoveInteractiveService, GameProgress gameProgress) {
         if (instance == null) {
             synchronized (GameThread.class) {
                 if (instance == null) {
-                    instance = new GameThread(mHandler, tetrisMoveInteractiveService);
+                    instance = new GameThread(mHandler, tetrisMoveInteractiveService, gameProgress);
                 }
             }
         }
@@ -73,6 +76,9 @@ public class GameThread extends Thread implements IUserIntent {
             while (this.isAlive()) {
                 Thread.sleep(level);
                 switch (Global.getGameState()) {
+                    case readProgress:
+                        Global.setGameState(GameState.moving);
+                        break;
                     case ready:
                         TetrisMove tetrisMove = TetrisMove.getInstance();
                         TetrisShow tetrisShow = TetrisShow.getInstance();
@@ -97,11 +103,8 @@ public class GameThread extends Thread implements IUserIntent {
                     case createTetrisOk:
                         break;
                     case noticeGameWait:
-                        //Toast.makeText(Global.applicationContext, "暂停", Toast.LENGTH_LONG).show();
-                        //保存游戏状态，然后wait
-                        SaveProgress sp = new SaveProgress();
-                        sp.saveProgress();
-                        sp.print();
+                        gameProgress.saveProgress();
+                        gameProgress.print();
                         LogUtil.i(LogUtil.msg() + "保存完毕~~");
                         this.wait();
                         break;
@@ -181,5 +184,13 @@ public class GameThread extends Thread implements IUserIntent {
 
     public int getLevel() {
         return this.level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public boolean readGameProgress() {
+        return this.gameProgress.readProgress();
     }
 }

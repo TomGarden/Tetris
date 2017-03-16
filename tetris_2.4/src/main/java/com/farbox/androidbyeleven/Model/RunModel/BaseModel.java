@@ -1,8 +1,8 @@
-package com.farbox.androidbyeleven.Model;
+package com.farbox.androidbyeleven.Model.RunModel;
 
 import android.util.DisplayMetrics;
 
-import com.farbox.androidbyeleven.Model.Impl.BeakerModel;
+import com.farbox.androidbyeleven.Model.RunModel.Impl.BeakerModel;
 import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
@@ -61,7 +61,7 @@ public class BaseModel /*implements IModelGet*/ {
      */
     private int halfBeakerBGLineWidthPix = Global.notSet;
     /**
-     * 烧杯数组
+     * 烧杯数组，的时候会为null，导致崩溃
      */
     private int[][] beakerMatris = null;
 

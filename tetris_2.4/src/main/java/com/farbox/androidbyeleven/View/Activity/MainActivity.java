@@ -2,6 +2,7 @@ package com.farbox.androidbyeleven.View.Activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
@@ -11,20 +12,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.farbox.androidbyeleven.Controller.Control.GameState;
 import com.farbox.androidbyeleven.Controller.Control.GameThread;
 import com.farbox.androidbyeleven.Controller.Control.MHandler;
 import com.farbox.androidbyeleven.Controller.M2V.impl.BeakerNotify;
+import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
+import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveSetterService;
+import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowGetterService;
+import com.farbox.androidbyeleven.Controller.V2M.ITetrisShowSetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.BeakerService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveInteractiveService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisMoveSetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisShowGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisShowInteractiveService;
-import com.farbox.androidbyeleven.Model.HiScore;
-import com.farbox.androidbyeleven.Model.Impl.BeakerModel;
-import com.farbox.androidbyeleven.Model.Impl.TetrisMoveModel;
-import com.farbox.androidbyeleven.Model.Impl.TetrisShowModel;
+import com.farbox.androidbyeleven.Controller.V2M.impl.TetrisShowSetterService;
+import com.farbox.androidbyeleven.Model.LocalizeModel.xml.impl.GameProgress;
+import com.farbox.androidbyeleven.Model.RunModel.HiScore;
+import com.farbox.androidbyeleven.Model.RunModel.Impl.BeakerModel;
+import com.farbox.androidbyeleven.Model.RunModel.Impl.TetrisMoveModel;
+import com.farbox.androidbyeleven.Model.RunModel.Impl.TetrisShowModel;
 import com.farbox.androidbyeleven.R;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
@@ -62,6 +71,16 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         }
     };
 
+    /**
+     * 设置即将加载的布局ID
+     *
+     * @return
+     */
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
     @Override
     protected void beforeView() {
         super.beforeView();
@@ -77,16 +96,6 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         intentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 
         this.registerReceiver(broadcastReceiver, intentFilter);
-    }
-
-    /**
-     * 设置即将加载的布局ID
-     *
-     * @return
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
     }
 
     /**
@@ -123,10 +132,10 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         findViewById(R.id.tv_score_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtil.i(LogUtil.msg()+"rootHei ="+ findViewById(R.id.ll_root).getHeight());
-                LogUtil.i(LogUtil.msg()+"titleHei ="+ findViewById(R.id.ll_title).getHeight());
-                LogUtil.i(LogUtil.msg()+"imageHei ="+ findViewById(R.id.ib_menu).getHeight());
-                LogUtil.i(LogUtil.msg()+"myTableRow ="+ myTableRow.getHeight());
+                LogUtil.i(LogUtil.msg() + "rootHei =" + findViewById(R.id.ll_root).getHeight());
+                LogUtil.i(LogUtil.msg() + "titleHei =" + findViewById(R.id.ll_title).getHeight());
+                LogUtil.i(LogUtil.msg() + "imageHei =" + findViewById(R.id.ib_menu).getHeight());
+                LogUtil.i(LogUtil.msg() + "myTableRow =" + myTableRow.getHeight());
             }
         });
     }
@@ -142,21 +151,26 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         this.beaker.setServerCondition(beakerService);//设置服务员
         //②连接showTetris、Controller、Model三者。
         TetrisShowModel tetrisShowModel = new TetrisShowModel();
-        TetrisShowGetterService serverSquare = new TetrisShowGetterService(tetrisShowModel);
+        ITetrisShowGetterService tetrisShowGetterService = new TetrisShowGetterService(tetrisShowModel);
+        ITetrisShowSetterService tetrisShowSetterService = new TetrisShowSetterService(tetrisShowModel);
         TetrisShowInteractiveService serverInteractive = new TetrisShowInteractiveService(tetrisShowModel);
-        this.llNextSquare.addView(TetrisShow.getInstance(serverSquare, serverInteractive));
+        this.llNextSquare.addView(TetrisShow.getInstance(tetrisShowGetterService, tetrisShowSetterService, serverInteractive));
         //③连接moveTetris、Controller、Model三者
         TetrisMoveModel tetrisMoveModel = new TetrisMoveModel();
-        TetrisMoveGetterService tetrisMoveGetterService = new TetrisMoveGetterService(tetrisMoveModel);
-        TetrisMoveSetterService tetrisMoveSetterService = new TetrisMoveSetterService(tetrisMoveModel);
+        ITetrisMoveGetterService tetrisMoveGetterService = new TetrisMoveGetterService(tetrisMoveModel);
+        ITetrisMoveSetterService tetrisMoveSetterService = new TetrisMoveSetterService(tetrisMoveModel);
         TetrisMoveInteractiveService tetrisMoveInteractiveService = new TetrisMoveInteractiveService(tetrisMoveModel);
         TetrisMove tetrisMove = TetrisMove.getInstance(tetrisMoveGetterService, tetrisMoveSetterService, tetrisMoveInteractiveService);
         this.frameLayout.addView(tetrisMove);
         //④连接Gesture、Controller、Model三者
         this.myTableRow.setParam(tetrisMoveGetterService, tetrisMoveInteractiveService, this.beaker, this.hiScore);
-        //先初始化一次Thread,免得以后调用麻烦。
-        GameThread.getInstance(new MHandler(this.beaker, this.hiScore, tetrisMoveInteractiveService), tetrisMoveInteractiveService);
+        //⑤拿到游戏进度管理对象
+        GameProgress ReadWirteGameProgress = new GameProgress(tetrisShowModel, tetrisMoveModel);
+        //⑥先初始化一次Thread,免得以后调用麻烦。
+        GameThread.getInstance(new MHandler(this.beaker, this.hiScore, tetrisMoveInteractiveService), tetrisMoveInteractiveService, ReadWirteGameProgress);
         this.level.setText("" + GameThread.getInstance().getLevel());
+        //⑦读取上次游戏进度
+        this.readLastProgress();
     }
 
     /**
@@ -168,6 +182,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (Global.getGameState()) {
+            case readProgress:
             case ready:
                 GameThread.getInstance().ready2Play();
                 break;
@@ -187,8 +202,6 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         if (this.mSwitch.isChecked()) {
             this.mSwitch.setChecked(false);
         }
-
-
     }
 
     /**
@@ -206,9 +219,72 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
                 break;
 
             case R.id.ib_menu://菜单按钮
-                LogUtil.i(LogUtil.msg()+this.ibMenu.getHeight());
+                LogUtil.i(LogUtil.msg() + this.ibMenu.getHeight());
                 break;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        this.play2Pause();//先暂停游戏
+          /*
+          这里使用了 android.support.v7.app.AlertDialog.Builder
+          可以直接在头部写 import android.support.v7.app.AlertDialog
+          那么下面就可以写成 AlertDialog.Builder
+          */
+        DialogClickListener listener = new DialogClickListener();
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("确认退出");
+        builder.setMessage("已保存本次进度。");
+        builder.setNegativeButton("取消", listener);
+        builder.setPositiveButton("确定", listener);
+        builder.show();
+        //super.onBackPressed();
+    }
+
+    private class DialogClickListener implements DialogInterface.OnClickListener {
+        /**
+         * This method will be invoked when a button in the dialog is clicked.
+         *
+         * @param dialog The dialog that received the click.
+         * @param which  The button that was clicked (e.g.
+         *               {@link DialogInterface#BUTTON1}) or the position
+         */
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE://确认
+                    unregisterReceiver(broadcastReceiver);
+                    finish();
+                    System.exit(0);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE://取消
+                    break;
+            }
+        }
+    }
+
+    private void readLastProgress() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("请问");
+        builder.setMessage("您是否继续上次进度");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Global.setGameState(GameState.readProgress);
+                if (!GameThread.getInstance().readGameProgress()) {
+                    Toast.makeText(Global.applicationContext, "发生事故,无法恢复,期待您的反馈。", Toast.LENGTH_SHORT).show();
+                    Global.setGameState(GameState.ready);
+                }
+                TetrisShow.getInstance().refreshTetris();
+                TetrisMove.getInstance().refreshTetris();
+                beaker.invalidate();
+                hiScore.setText("" + HiScore.getInstance().getScore());
+                level.setText("" + GameThread.getInstance().getLevel());
+
+            }
+        });
+        builder.show();
+    }
 }

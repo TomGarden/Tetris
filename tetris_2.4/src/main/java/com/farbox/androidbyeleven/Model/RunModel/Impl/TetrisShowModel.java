@@ -1,8 +1,9 @@
-package com.farbox.androidbyeleven.Model.Impl;
+package com.farbox.androidbyeleven.Model.RunModel.Impl;
 
-import com.farbox.androidbyeleven.Model.BaseModel;
-import com.farbox.androidbyeleven.Model.ITetrisShowModelGet;
-import com.farbox.androidbyeleven.Model.ITetrisShowModelInteractive;
+import com.farbox.androidbyeleven.Model.RunModel.BaseModel;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelInteractive;
+import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelSet;
 import com.farbox.androidbyeleven.Utils.ConvertUtil;
 import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.MathUtil;
@@ -18,7 +19,7 @@ import java.util.Random;
  * <p>
  * 本类掌控展示用的Tetris的数据
  */
-public class TetrisShowModel implements ITetrisShowModelGet, ITetrisShowModelInteractive {
+public class TetrisShowModel implements ITetrisShowModelGet, ITetrisShowModelInteractive, ITetrisShowModelSet {
 
     /**
      * 缩放比例 值 为 1  表示原始大小
@@ -217,5 +218,16 @@ public class TetrisShowModel implements ITetrisShowModelGet, ITetrisShowModelInt
     @Override
     public void refreshTetris() {
         this.currentSquareMatrix = null;
+    }
+
+    /**
+     * 设置当前正在显示的矩阵
+     *
+     * @param currentMatrix
+     * @return
+     */
+    @Override
+    public void setCurrentMatrix(int[][] currentMatrix) {
+        this.currentSquareMatrix = currentMatrix;
     }
 }

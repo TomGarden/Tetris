@@ -1,19 +1,15 @@
 package com.farbox.androidbyeleven.Controller.Control;
 
 import android.graphics.Point;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.farbox.androidbyeleven.Controller.Control.GameState;
-import com.farbox.androidbyeleven.Controller.Control.MoveDirection;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
-import com.farbox.androidbyeleven.Model.HiScore;
+import com.farbox.androidbyeleven.Model.RunModel.HiScore;
 import com.farbox.androidbyeleven.Utils.Global;
-import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.Beaker;
 import com.farbox.androidbyeleven.View.Weight.TetrisMove;
 

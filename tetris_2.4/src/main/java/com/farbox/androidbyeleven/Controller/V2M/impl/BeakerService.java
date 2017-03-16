@@ -1,8 +1,8 @@
 package com.farbox.androidbyeleven.Controller.V2M.impl;
 
 import com.farbox.androidbyeleven.Controller.V2M.IBeakerGetterService;
-import com.farbox.androidbyeleven.Model.IBeakerModelGet;
-import com.farbox.androidbyeleven.Model.IBeakerModelSet;
+import com.farbox.androidbyeleven.Model.RunModel.IBeakerModelGet;
+import com.farbox.androidbyeleven.Model.RunModel.IBeakerModelSet;
 import com.farbox.androidbyeleven.Controller.V2M.IBeakerConditionService;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 
