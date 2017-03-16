@@ -60,7 +60,7 @@ public class MHandler extends Handler {
                         int eliminateNum = this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
                         if (eliminateNum > 0) {
                             HiScore.getInstance().eliminateNum(eliminateNum);
-                            this.hiScore.setText(""+HiScore.getInstance().getScore());
+                            this.hiScore.setText("" + HiScore.getInstance().getScore());
                         }
                         this.beaker.invalidate();
                         //Global.gameState = GameState.eliminateOk;

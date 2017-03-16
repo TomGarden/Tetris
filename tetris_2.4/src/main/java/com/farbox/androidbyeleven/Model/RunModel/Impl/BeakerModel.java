@@ -121,6 +121,16 @@ public class BeakerModel implements IBeakerModelGet, IBeakerModelSet {
     }
 
     /**
+     * 设置烧杯数组
+     *
+     * @param beakerMatris
+     */
+    @Override
+    public void setBeakerMatris(int[][] beakerMatris) {
+        BaseModel.getInstance().setBeakerMatris(beakerMatris);
+    }
+
+    /**
      * 获取Square之间的间距
      *
      * @return 像素距离

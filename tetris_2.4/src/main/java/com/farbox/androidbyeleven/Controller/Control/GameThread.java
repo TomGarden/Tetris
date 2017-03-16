@@ -60,13 +60,15 @@ public class GameThread extends Thread implements IUserIntent {
         return instance;
     }
 
-    private GameThread() {
-
+    public static void cleanThread() {
+        instance = new GameThread(instance.mHandler, instance.tetrisMoveInteractiveService, instance.gameProgress);
     }
     //endregion
 
     /**
      * 俄罗斯方块移动间歇时间,作为游戏等级
+     * <p>
+     * 这个值我们取 0-1000之间的整百数
      */
     private int level = 400;
 
@@ -183,7 +185,7 @@ public class GameThread extends Thread implements IUserIntent {
     }
 
     public int getLevel() {
-        return this.level;
+        return (1000 - this.level) / 100;
     }
 
     public void setLevel(int level) {

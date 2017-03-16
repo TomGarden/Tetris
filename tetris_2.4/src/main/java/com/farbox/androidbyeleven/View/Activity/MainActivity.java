@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.farbox.androidbyeleven.Controller.Control.GameState;
 import com.farbox.androidbyeleven.Controller.Control.GameThread;
 import com.farbox.androidbyeleven.Controller.Control.MHandler;
+import com.farbox.androidbyeleven.Controller.M2V.IBeakerNotify;
 import com.farbox.androidbyeleven.Controller.M2V.impl.BeakerNotify;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveSetterService;
@@ -144,8 +145,8 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
     protected void initData() {
         //①连接Beaker、Controller、Model三者。
         this.beaker = (Beaker) findViewById(R.id.tetrisBeaker);
-        BeakerNotify beakerNotify = new BeakerNotify(this.beaker);
-        BeakerModel beakerModel = BeakerModel.getInstance(beakerNotify);//这里必须用带参数的获取
+        IBeakerNotify iBbeakerNotify = new BeakerNotify(this.beaker);
+        BeakerModel beakerModel = BeakerModel.getInstance(iBbeakerNotify);//这里必须用带参数的获取
         BeakerService beakerService = new BeakerService(beakerModel, beakerModel);
         this.beaker.setService(beakerService);//设置服务员
         this.beaker.setServerCondition(beakerService);//设置服务员
@@ -195,6 +196,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             case gameOver:
                 if (!isChecked) {
                     Toast.makeText(Global.applicationContext, "清空界面到默认值", Toast.LENGTH_SHORT).show();
+                    this.cleanOldGame();
                 }
                 break;
             default:
@@ -300,6 +302,22 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
      * 用于GameOver之后清空旧的游戏数据
      */
     private void cleanOldGame() {
-
+        /*清空背景矩阵*/
+        int[][] beakerMatris = BeakerModel.getInstance().getBeakerMatris();
+        BeakerModel.getInstance().setBeakerMatris(new int[beakerMatris.length][beakerMatris[0].length]);
+        beaker.invalidate();
+        /*清空MoveTetris*/
+        TetrisMove.getInstance().setCurrentMatrix(null);
+        TetrisMove.getInstance().setTetrisLogicPos(null);
+        TetrisMove.getInstance().refreshTetris();
+        /*清空ShowTetris*/
+        TetrisShow.getInstance().refreshTetris();
+        /*清空线程*/
+        GameThread.cleanThread();
+        /*清空分数*/
+        HiScore.getInstance().setScore(0);
+        hiScore.setText("" + HiScore.getInstance().getScore());
+        /*标示游戏状态*/
+        Global.setGameState(GameState.ready);
     }
 }

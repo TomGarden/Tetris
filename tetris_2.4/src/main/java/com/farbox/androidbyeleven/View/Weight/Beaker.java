@@ -131,11 +131,6 @@ public class Beaker extends MyView {
         }
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-    }
-
     /**
      * 获取自己的服务员。
      *

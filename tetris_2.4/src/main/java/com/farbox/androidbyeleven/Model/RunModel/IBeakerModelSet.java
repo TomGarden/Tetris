@@ -38,4 +38,9 @@ public interface IBeakerModelSet {
      * @param squareLineWidthPix
      */
     void setBeakerBGLineWidthPix(int squareLineWidthPix);
+
+    /**
+     * 设置烧杯数组
+     */
+    void setBeakerMatris(int[][] beakerMatris);
 }
