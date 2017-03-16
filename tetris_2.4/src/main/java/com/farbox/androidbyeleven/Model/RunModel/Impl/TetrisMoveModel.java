@@ -195,7 +195,14 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     private Point getTetrisInBeakerPos() {
         if (tetrisInBeakerPos == null) {
             tetrisInBeakerPos = new Point();
-            LogUtil.i(LogUtil.msg() + "曾经有次BaseModel.getInstance().getBeakerMatris()得到null");
+            //region 日志检错，为日后服务
+            if (BaseModel.getInstance().getBeakerMatris() == null) {
+                LogUtil.i(LogUtil.msg() + "这个错误需要排查 : BaseModel.getInstance().getBeakerMatris() == null");
+            }
+            if (getCurrentMatrix() == null) {
+                LogUtil.i(LogUtil.msg() + "这个错误需要排查 : getCurrentMatrix() == null");
+            }
+            //endregion
             //首先计算在矩阵中的位置坐标
             tetrisInBeakerPos.x = (BaseModel.getInstance().getBeakerMatris()[0].length - getCurrentMatrix()[0].length) / 2;
             tetrisInBeakerPos.y = 0;

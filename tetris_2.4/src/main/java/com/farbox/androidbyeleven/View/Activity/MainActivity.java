@@ -192,6 +192,11 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             case moving:
                 GameThread.getInstance().paly2Pause();
                 break;
+            case gameOver:
+                if (!isChecked) {
+                    Toast.makeText(Global.applicationContext, "清空界面到默认值", Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 LogUtil.e(LogUtil.msg() + Global.tipNotOperate);
                 break;
@@ -264,12 +269,15 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         }
     }
 
+    /**
+     * 询问是否从上次的进度继续游戏
+     */
     private void readLastProgress() {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("请问");
         builder.setMessage("您是否继续上次进度");
-        builder.setNegativeButton("取消", null);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("重玩", null);
+        builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Global.setGameState(GameState.readProgress);
@@ -286,5 +294,12 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             }
         });
         builder.show();
+    }
+
+    /**
+     * 用于GameOver之后清空旧的游戏数据
+     */
+    private void cleanOldGame() {
+
     }
 }
