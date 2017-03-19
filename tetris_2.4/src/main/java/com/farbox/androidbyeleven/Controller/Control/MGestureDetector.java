@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.farbox.androidbyeleven.Controller.Sound.Sound;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveGetterService;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
 import com.farbox.androidbyeleven.Model.RunModel.HiScore;
@@ -68,6 +69,10 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         if (this.serverInteractive.moveTo(MoveDirection.rotate)) {
+            if (Global.sound == null) {
+                Global.sound = new Sound();
+            }
+            Global.sound.play();
             TetrisMove.getInstance().refreshTetris();
         }
         return true;
@@ -80,6 +85,10 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                 this.left += distanceX;
                 if (this.left >= this.serverGetter.getSideAddSpacePix()) {
                     if (this.serverInteractive.moveTo(MoveDirection.left)) {
+                        if (Global.sound == null) {
+                            Global.sound = new Sound();
+                        }
+                        Global.sound.play();
                         TetrisMove.getInstance().refreshTetris();
                     }
                     this.left -= this.serverGetter.getSideAddSpacePix();
@@ -88,6 +97,10 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                 this.right -= distanceX;
                 if (this.right >= this.serverGetter.getSideAddSpacePix()) {
                     if (this.serverInteractive.moveTo(MoveDirection.right)) {
+                        if (Global.sound == null) {
+                            Global.sound = new Sound();
+                        }
+                        Global.sound.play();
                         TetrisMove.getInstance().refreshTetris();
                     }
                     this.right -= this.serverGetter.getSideAddSpacePix();
@@ -98,6 +111,10 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                 this.top += distanceY;
                 if (this.top >= this.serverGetter.getSideAddSpacePix()) {
                     if (this.serverInteractive.moveTo(MoveDirection.top)) {
+                        if (Global.sound == null) {
+                            Global.sound = new Sound();
+                        }
+                        Global.sound.play();
                         TetrisMove.getInstance().refreshTetris();
                     }
                     this.top -= this.serverGetter.getSideAddSpacePix();
@@ -106,6 +123,10 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                 this.bottom -= distanceY;
                 if (this.bottom >= this.serverGetter.getSideAddSpacePix()) {
                     if (this.serverInteractive.moveTo(MoveDirection.bottom)) {
+                        if (Global.sound == null) {
+                            Global.sound = new Sound();
+                        }
+                        Global.sound.play();
                         TetrisMove.getInstance().refreshTetris();
                     } else {
                         Global.setGameState(GameState.pastTetrisIng);
@@ -121,7 +142,7 @@ public class MGestureDetector implements GestureDetector.OnGestureListener {
                             int eliminateNum = this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);
                             if (eliminateNum > 0) {
                                 HiScore.getInstance().eliminateNum(eliminateNum);
-                                this.hiScore.setText(""+HiScore.getInstance().getScore());
+                                this.hiScore.setText("" + HiScore.getInstance().getScore());
                             }
                             this.beaker.invalidate();
                             Global.setGameState(GameState.eliminateOk);

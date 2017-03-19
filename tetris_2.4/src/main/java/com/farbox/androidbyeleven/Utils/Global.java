@@ -3,6 +3,7 @@ package com.farbox.androidbyeleven.Utils;
 import android.content.Context;
 
 import com.farbox.androidbyeleven.Controller.Control.GameState;
+import com.farbox.androidbyeleven.Controller.Sound.Sound;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,4 +47,8 @@ public class Global {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.format(c.getTime());
     }
+
+
+    public static Sound sound = null;
+
 }
