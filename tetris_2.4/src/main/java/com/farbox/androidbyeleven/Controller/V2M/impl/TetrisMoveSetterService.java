@@ -4,6 +4,7 @@ import android.graphics.Point;
 
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveSetterService;
 import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelSet;
+import com.farbox.androidbyeleven.Utils.LogUtil;
 
 /**
  * describe:把自己的需求用接口的形式告知Model，model按接口约定好的内容为Controller提供支持。
@@ -25,6 +26,7 @@ public class TetrisMoveSetterService implements ITetrisMoveSetterService {
      */
     @Override
     public void setCurrentMatrix(int[][] currentMatrix) {
+        LogUtil.i(LogUtil.msg() + "this.setTetrisMoveModel.setCurrentMatrix(currentMatrix);");
         this.setTetrisMoveModel.setCurrentMatrix(currentMatrix);
     }
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.farbox.androidbyeleven.Controller.V2M.ITetrisMoveInteractiveService;
 import com.farbox.androidbyeleven.Model.RunModel.HiScore;
 import com.farbox.androidbyeleven.Utils.Global;
+import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.Beaker;
 import com.farbox.androidbyeleven.View.Weight.TetrisMove;
 import com.farbox.androidbyeleven.View.Weight.TetrisShow;
@@ -47,7 +48,10 @@ public class MHandler extends Handler {
                 if (result == null) {
                     TetrisMove.getInstance().refreshTetris();
                 } else {
+                    LogUtil.i(LogUtil.msg() + "收到粘贴消息");
+
                     Global.gameState = GameState.pastTetrisIng;
+
                     Point eliminateData = this.serverInteractive.tetrisPast2BeakerMatris();
                     TetrisMove.getInstance().refreshTetris();
                     this.beaker.invalidate();

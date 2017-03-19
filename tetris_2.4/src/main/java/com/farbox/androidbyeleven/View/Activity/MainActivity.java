@@ -241,8 +241,8 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
           */
         DialogClickListener listener = new DialogClickListener();
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setTitle("确认退出");
-        builder.setMessage("已保存本次进度。");
+        builder.setTitle("确认退出？");
+        builder.setMessage("　　已保存本次进度。");
         builder.setNegativeButton("取消", listener);
         builder.setPositiveButton("确定", listener);
         builder.show();
@@ -276,8 +276,8 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
      */
     private void readLastProgress() {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setTitle("请问");
-        builder.setMessage("您是否继续上次进度");
+        builder.setTitle("请问？");
+        builder.setMessage("　　您是否继续上次进度");
         builder.setNegativeButton("重玩", null);
         builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
             @Override

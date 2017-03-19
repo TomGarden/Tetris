@@ -99,9 +99,11 @@ public class GameThread extends Thread implements IUserIntent {
                             /*tetrisMove.refreshTetris();*/
                         } else {//去先粘贴
                             this.mHandler.sendMessage(this.packMsg(Global.getGameState(), GameState.ready));
+                            Global.gameState = GameState.sendMsg;//排查别的状态改变会不会造成本问题，理论上说是会的。所以我们需要一个别的机制来避免本问题
                         }
                         break;
-
+                    case sendMsg:
+                        break;
                     case createTetrisOk:
                         break;
                     case noticeGameWait:
@@ -184,8 +186,12 @@ public class GameThread extends Thread implements IUserIntent {
         }
     }
 
-    public int getLevel() {
+    /*public int getLevel() {
         return (1000 - this.level) / 100;
+    }*/
+
+    public int getLevel() {
+        return this.level;
     }
 
     public void setLevel(int level) {
@@ -193,6 +199,8 @@ public class GameThread extends Thread implements IUserIntent {
     }
 
     public boolean readGameProgress() {
+        this.gameProgress.print();
         return this.gameProgress.readProgress();
+
     }
 }

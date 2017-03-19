@@ -115,6 +115,9 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      * @return
      */
     public int[][] getCurrentMatrix() {
+//        if (this.currentMatrix == null) {
+//            throw new RuntimeException("this.currentMatrix == null");
+//        }
         return this.currentMatrix;
     }
 
@@ -173,6 +176,13 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
      */
     @Override
     public void setCurrentMatrix(int[][] currentMatrix) {
+        if (currentMatrix == null) {
+            //throw new RuntimeException("currentMatrix == null");
+            LogUtil.i(LogUtil.msg() + "currentMatrix == null");
+        } else {
+            LogUtil.i(LogUtil.msg() + "public void setCurrentMatrix(int[][] currentMatrix) {");
+        }
+
         this.currentMatrix = currentMatrix;
     }
 
@@ -266,6 +276,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
                 //System.out.println("---------------------------");
 
                 if (this.isCanExist(roateResultMatrix, fixResultPosition)) {
+                    LogUtil.i(LogUtil.msg() + "this.setCurrentMatrix(roateResultMatrix);");
                     this.setCurrentMatrix(roateResultMatrix);
                     this.setTetrisInBeakerPos(fixResultPosition);
                     return true;
@@ -323,7 +334,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
                 this.getTetrisInBeakerPos().y++;
                 return true;
             } else {
-                //LogUtil.i(LogUtil.msg() + "已经到达最下边，应该在粘贴的过程中等待一次移动的时间");
+                LogUtil.i(LogUtil.msg() + "已经到达最下边，应该在粘贴的过程中等待一次移动的时间");
                 return false;
             }
         }
@@ -391,7 +402,7 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     }
 
     private synchronized boolean canMove2Bottom() {
-        if (this.getTetrisInBeakerPos().y + 1 > BaseModel.getInstance().getBeakerMatris().length - 1) {//判断是否超出背景了
+        if (this.getTetrisInBeakerPos().y + 1 > BaseModel.getInstance().getBeakerMatris().length - 1) {//如果下移会从底部超出容器
             return false;
         } else {//如果没有超出背景
             /*1.判断下边是否已经有方块挡着了
@@ -539,9 +550,14 @@ public class TetrisMoveModel implements ITetrisMoveModelGet, ITetrisMoveModelSet
     @Override
     public Point tetrisPast2BeakerMatris() {
         Point eliminateData = null;
+        if (getCurrentMatrix() == null) {
+            LogUtil.i(LogUtil.msg() + "tetrisPast2BeakerMatris  : getCurrentMatrix() == null");
+        }
         if (tetrisPast2BeakerMatris(getCurrentMatrix(), getTetrisInBeakerPos())) {
             eliminateData = new Point(this.getTetrisInBeakerPos().y, this.getCurrentMatrix().length);
         }
+
+        LogUtil.i(LogUtil.msg() + "this.setCurrentMatrix(null);");
         this.setCurrentMatrix(null);
         this.setTetrisInBeakerPos(null);
         return eliminateData;

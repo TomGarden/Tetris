@@ -182,6 +182,8 @@ public class GameProgress extends BaseLocalize implements IReadGameProgress, IWr
             return false;
         }
         LogUtil.i(LogUtil.msg() + "这里还有待测试，如果没有，现在得到的矩阵和保存的矩阵是否有不同");
+
+        LogUtil.i(LogUtil.msg() + "this.tetrisMoveModelSet.setCurrentMatrix(result);");
         this.tetrisMoveModelSet.setCurrentMatrix(result);
         return true;
     }

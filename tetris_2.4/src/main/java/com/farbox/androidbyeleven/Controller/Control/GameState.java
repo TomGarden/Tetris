@@ -41,6 +41,10 @@ public enum GameState {
     /**
      * 读取上次的进度
      */
-    readProgress
+    readProgress,
+    /**
+     * GameThread向MainThread发送消息之后暂时处于本状态，因为如果level时间极短的话会造成不可预知的错误,我们从逻辑上屏蔽它
+     */
+    sendMsg
 }
 
