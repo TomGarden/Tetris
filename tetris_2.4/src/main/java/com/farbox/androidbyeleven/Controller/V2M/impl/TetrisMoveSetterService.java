@@ -26,7 +26,6 @@ public class TetrisMoveSetterService implements ITetrisMoveSetterService {
      */
     @Override
     public void setCurrentMatrix(int[][] currentMatrix) {
-        LogUtil.i(LogUtil.msg() + "this.setTetrisMoveModel.setCurrentMatrix(currentMatrix);");
         this.setTetrisMoveModel.setCurrentMatrix(currentMatrix);
     }
 

@@ -160,7 +160,7 @@ public class TetrisMove extends TetrisSquare {
         if (Global.getGameState() != GameState.gameOver) {
             this.invalidate();
         } else {
-            Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
+            //Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
         }
     }
 

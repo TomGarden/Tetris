@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
                 break;
             case gameOver:
                 if (!isChecked) {
-                    Toast.makeText(Global.applicationContext, "清空界面到默认值", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Global.applicationContext, "复位,再次点击重新开始。", Toast.LENGTH_SHORT).show();
                     this.cleanOldGame();
                 }
                 break;
@@ -249,6 +249,13 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         //super.onBackPressed();
     }
 
+    @Override
+    protected void onPause() {
+        LogUtil.i(LogUtil.msg() + "onPause");
+        this.play2Pause();//先暂停游戏
+        super.onPause();
+    }
+
     private class DialogClickListener implements DialogInterface.OnClickListener {
         /**
          * This method will be invoked when a button in the dialog is clicked.
@@ -275,6 +282,10 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
      * 询问是否从上次的进度继续游戏
      */
     private void readLastProgress() {
+        final Object object = GameThread.getInstance().getGameProgress();
+        if (object == null) {
+            return;
+        }
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("请问？");
         builder.setMessage("　　您是否继续上次进度");
@@ -283,10 +294,9 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Global.setGameState(GameState.readProgress);
-                if (!GameThread.getInstance().readGameProgress()) {
-                    Toast.makeText(Global.applicationContext, "发生事故,无法恢复,期待您的反馈。", Toast.LENGTH_SHORT).show();
-                    Global.setGameState(GameState.ready);
-                }
+
+                GameThread.getInstance().loadProgress(object);
+
                 TetrisShow.getInstance().refreshTetris();
                 TetrisMove.getInstance().refreshTetris();
                 beaker.invalidate();
@@ -320,4 +330,6 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         /*标示游戏状态*/
         Global.setGameState(GameState.ready);
     }
+
+
 }

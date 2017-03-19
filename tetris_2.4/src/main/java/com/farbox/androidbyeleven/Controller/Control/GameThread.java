@@ -198,9 +198,12 @@ public class GameThread extends Thread implements IUserIntent {
         this.level = level;
     }
 
-    public boolean readGameProgress() {
+    public Object getGameProgress() {
         this.gameProgress.print();
-        return this.gameProgress.readProgress();
+        return this.gameProgress.getProgress();
+    }
 
+    public void loadProgress(Object object) {
+        this.gameProgress.loadProgress(object);
     }
 }

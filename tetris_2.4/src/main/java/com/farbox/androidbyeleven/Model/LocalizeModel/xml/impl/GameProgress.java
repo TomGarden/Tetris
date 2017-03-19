@@ -10,6 +10,7 @@ import com.farbox.androidbyeleven.Model.RunModel.BaseModel;
 import com.farbox.androidbyeleven.Model.RunModel.HiScore;
 import com.farbox.androidbyeleven.Model.RunModel.ITetrisMoveModelSet;
 import com.farbox.androidbyeleven.Model.RunModel.ITetrisShowModelSet;
+import com.farbox.androidbyeleven.Utils.Global;
 import com.farbox.androidbyeleven.Utils.LogUtil;
 import com.farbox.androidbyeleven.View.Weight.TetrisMove;
 import com.farbox.androidbyeleven.View.Weight.TetrisShow;
@@ -78,60 +79,26 @@ public class GameProgress extends BaseLocalize implements IReadGameProgress, IWr
         LogUtil.i(LogUtil.msg() + hiScore + "\t" + sharedPreferences.getString(hiScore, defaultStr));
     }
 
+
+    @Override
+    public Object getProgress() {
+        return this.getGameProgress();
+    }
+
     /**
-     * 读取用户上次的游戏进度
+     * 加载getProgress获取到的数据
      *
-     * @return
+     * @param object
      */
     @Override
-    public boolean readProgress() {
-        SharedPreferences sharedPreferences = super.getSP(this.fileName);
-        String result = sharedPreferences.getString(beakerMatrix, defaultStr);//20:10:111111111
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        if (!this.setBeakerMatrix(result)) {
-            return false;
-        }
-
-        result = sharedPreferences.getString(showTetrisMatrix, defaultStr);//2:3:1111111111
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        if (!this.setShowTetrisMatrix(result)) {
-            return false;
-        }
-
-        result = sharedPreferences.getString(moveTetrisMatrix, defaultStr);//2:3:1111111111
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        if (!this.setMoveTetrisMatrix(result)) {
-            return false;
-        }
-
-
-        result = sharedPreferences.getString(moveTetrisLogicPos, defaultStr);//1:2
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        if (!this.setMoveTetrisLogicPos(result)) {
-            return false;
-        }
-
-        result = sharedPreferences.getString(level, defaultStr);
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        this.setLevel(result);
-
-        result = sharedPreferences.getString(hiScore, defaultStr);
-        if (result.equals(defaultStr)) {
-            return false;
-        }
-        this.setHiScore(result);
-
-        return true;
+    public void loadProgress(Object object) {
+        ProgressData progressData = (ProgressData) object;
+        BaseModel.getInstance().setBeakerMatris(progressData.beakerMatrix);
+        this.tetrisShowModelSet.setCurrentMatrix(progressData.showTetrisMatrix);
+        this.tetrisMoveModelSet.setCurrentMatrix(progressData.moveTetrisMatrix);
+        TetrisMove.getInstance().setTetrisLogicPos(progressData.moveTetrisLogicPos);
+        GameThread.getInstance().setLevel(progressData.level);
+        HiScore.getInstance().setScore(progressData.hiScore);
     }
 
     private int[][] getArrayFormStr(String strMatrix) {
@@ -156,38 +123,6 @@ public class GameProgress extends BaseLocalize implements IReadGameProgress, IWr
         return result;
     }
 
-    private boolean setBeakerMatrix(String strMatrix) {
-        int[][] result = this.getArrayFormStr(strMatrix);
-        if (result == null) {
-            return false;
-        }
-        LogUtil.i(LogUtil.msg() + "这里还有待测试，如果没有，现在得到的矩阵和保存的矩阵是否有不同");
-        BaseModel.getInstance().setBeakerMatris(result);
-        return true;
-    }
-
-    private boolean setShowTetrisMatrix(String strMatrix) {
-        int[][] result = this.getArrayFormStr(strMatrix);
-        if (result == null) {
-            return false;
-        }
-        LogUtil.i(LogUtil.msg() + "这里还有待测试，如果没有，现在得到的矩阵和保存的矩阵是否有不同");
-        this.tetrisShowModelSet.setCurrentMatrix(result);
-        return true;
-    }
-
-    private boolean setMoveTetrisMatrix(String strMatrix) {
-        int[][] result = this.getArrayFormStr(strMatrix);
-        if (result == null) {
-            return false;
-        }
-        LogUtil.i(LogUtil.msg() + "这里还有待测试，如果没有，现在得到的矩阵和保存的矩阵是否有不同");
-
-        LogUtil.i(LogUtil.msg() + "this.tetrisMoveModelSet.setCurrentMatrix(result);");
-        this.tetrisMoveModelSet.setCurrentMatrix(result);
-        return true;
-    }
-
     private Point getPointFormStr(String strPoint) {
         String[] strArray = strPoint.split(":");
         if (strArray.length != 2) {
@@ -200,22 +135,62 @@ public class GameProgress extends BaseLocalize implements IReadGameProgress, IWr
         return result;
     }
 
-    private boolean setMoveTetrisLogicPos(String strPoint) {
-        Point result = this.getPointFormStr(strPoint);
-        if (result == null) {
-            return false;
+    private ProgressData getGameProgress() {
+        ProgressData progressData = new ProgressData();
+        SharedPreferences sharedPreferences = super.getSP(this.fileName);
+        String result = sharedPreferences.getString(beakerMatrix, defaultStr);//20:10:111111111
+        if (!result.equals(defaultStr)) {
+            progressData.beakerMatrix = this.getArrayFormStr(result);
         }
-        TetrisMove.getInstance().setTetrisLogicPos(result);
-        return true;
+        result = sharedPreferences.getString(showTetrisMatrix, defaultStr);//2:3:1111111111
+        if (!result.equals(defaultStr)) {
+            progressData.showTetrisMatrix = this.getArrayFormStr(result);
+        }
+        result = sharedPreferences.getString(moveTetrisMatrix, defaultStr);//2:3:1111111111
+        if (!result.equals(defaultStr)) {
+            progressData.moveTetrisMatrix = this.getArrayFormStr(result);
+        }
+        result = sharedPreferences.getString(moveTetrisLogicPos, defaultStr);//1:2
+        if (!result.equals(defaultStr)) {
+            progressData.moveTetrisLogicPos = this.getPointFormStr(result);
+        }
+        result = sharedPreferences.getString(level, defaultStr);
+        if (!result.equals(defaultStr)) {
+            progressData.level = Integer.parseInt(result);
+        }
+        result = sharedPreferences.getString(hiScore, defaultStr);
+        if (!result.equals(defaultStr)) {
+            progressData.hiScore = Integer.parseInt(result);
+        }
+
+        if (progressData.checkData() == 2) {
+            return progressData;
+        } else {
+            return null;
+        }
     }
 
-    private void setLevel(String str) {
-        int level = Integer.parseInt(str);
-        GameThread.getInstance().setLevel(level);
-    }
+    class ProgressData {
+        int[][] beakerMatrix = null;
+        int[][] showTetrisMatrix = null;
+        int[][] moveTetrisMatrix = null;
+        Point moveTetrisLogicPos = null;
+        int level = Global.notSet;
+        int hiScore = Global.notSet;
 
-    private void setHiScore(String strScor) {
-        int hiScore = Integer.parseInt(strScor);
-        HiScore.getInstance().setScore(hiScore);
+        /**
+         * 检查数据是否全部被设置好了
+         *
+         * @return 0, 一个数据都没有被设置；1,设置了部分数据; 2,数据全部设置好了
+         */
+        public int checkData() {
+            if (beakerMatrix != null && showTetrisMatrix != null && moveTetrisMatrix != null && moveTetrisLogicPos != null && level != Global.notSet && hiScore != Global.notSet) {
+                return 2;
+            } else if (beakerMatrix == null && showTetrisMatrix == null && moveTetrisMatrix == null && moveTetrisLogicPos == null && level == Global.notSet && hiScore == Global.notSet) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
     }
 }
