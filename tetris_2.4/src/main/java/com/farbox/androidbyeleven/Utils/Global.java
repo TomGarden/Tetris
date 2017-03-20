@@ -50,5 +50,5 @@ public class Global {
 
 
     public static Sound sound = null;
-
+    public static boolean soundSwitch = true;
 }

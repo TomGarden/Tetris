@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.Menu;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -117,28 +118,6 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         this.level.setOnClickListener(this);
         this.ibMenu.setOnClickListener(this);
         findViewById(R.id.tv_level_title).setOnClickListener(this);
-
-        findViewById(R.id.tv_score).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtil.i(LogUtil.msg() + "test");
-            }
-        });
-        findViewById(R.id.tv_next_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtil.i(LogUtil.msg() + "test22222222");
-            }
-        });
-        findViewById(R.id.tv_score_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtil.i(LogUtil.msg() + "rootHei =" + findViewById(R.id.ll_root).getHeight());
-                LogUtil.i(LogUtil.msg() + "titleHei =" + findViewById(R.id.ll_title).getHeight());
-                LogUtil.i(LogUtil.msg() + "imageHei =" + findViewById(R.id.ib_menu).getHeight());
-                LogUtil.i(LogUtil.msg() + "myTableRow =" + myTableRow.getHeight());
-            }
-        });
     }
 
     @Override
@@ -226,7 +205,7 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
                 break;
 
             case R.id.ib_menu://菜单按钮
-                LogUtil.i(LogUtil.msg() + this.ibMenu.getHeight());
+                this.openMenu();
                 break;
         }
     }
@@ -331,5 +310,9 @@ public class MainActivity extends BaseActivity implements CompoundButton.OnCheck
         Global.setGameState(GameState.ready);
     }
 
+    private void openMenu() {
+        this.play2Pause();//先暂停游戏
 
+        startActivity(new Intent(this, MenuActivity.class));
+    }
 }

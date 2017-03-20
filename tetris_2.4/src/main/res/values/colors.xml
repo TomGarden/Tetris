@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Other theme color-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--game theme color-->
+    <color name="mColorPrimary">#cccc9e</color>
+    <color name="mColorPrimaryDark">#c0c395</color><!--对比色3f3c6a-->
+    <color name="mColorPrimaryDarkDark">#959773</color>
+    <color name="mColorAccent">#3f3c6a</color>
+
+    <color name="defautBg">#eeeeee</color>
+
+
+    <color name="transparent">#00ffffff</color><!--透明-->
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="whiteTransparent_90">#19FFFFFF</color><!--白色（增加透明度） -->
     <color name="whiteTransparent_85">#21FFFFFF</color><!--白色（增加透明度） -->
@@ -155,9 +166,4 @@
     <color name="black">#000000</color><!--黑色 -->
 
 
-    <!--透明-->
-    <color name="transparent">#00ffffff</color>
-    <color name="mColorPrimary">#cccc9e</color>
-    <color name="mColorPrimaryDark">#c0c395</color>
-    <color name="mColorPrimaryDarkDark">#959773</color>
 </resources>

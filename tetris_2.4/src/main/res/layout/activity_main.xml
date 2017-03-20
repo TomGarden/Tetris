@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:TetrisBeaker="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mColorPrimaryDark"
-    android:id="@+id/ll_root"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
         android:padding="0dp"
-        android:layout_margin="0dp"
         android:weightSum="100">
 
         <!--android:scaleType="centerInside"-->
@@ -26,10 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="-32dp"
             android:layout_weight="10"
             android:background="@drawable/sel_menu"
-            android:paddingRight="8dp"
             android:src="@drawable/menu" />
 
         <TableRow
@@ -69,8 +67,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:gravity="center" />
+            android:gravity="center"
+            android:paddingRight="@dimen/activity_horizontal_margin" />
     </LinearLayout>
 
 

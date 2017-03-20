@@ -58,7 +58,7 @@ public class MHandler extends Handler {
                     Global.gameState = GameState.pastTetrisOk;
                     if (eliminateData == null) {
                         Global.setGameState(GameState.gameOver);
-                        Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Global.applicationContext, "GameOver", Toast.LENGTH_SHORT).show();
                     } else {
                         Global.gameState = GameState.eliminating;
                         int eliminateNum = this.serverInteractive.eliminate(eliminateData.x, eliminateData.y);

@@ -38,7 +38,6 @@ public class TetrisShow extends TetrisSquare {
     /**
      * 首次初始化调用本方法
      *
-     * @param server
      * @return
      */
     public static TetrisShow getInstance(ITetrisShowGetterService serverGetter, ITetrisShowSetterService serverSetter, ITetrisShowInteractiveService serverInteractive) {
