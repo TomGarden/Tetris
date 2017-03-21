@@ -25,4 +25,8 @@
             android:theme="@style/MyAppTheme" />
     </application>
 
+    <!--当前用于多渠道打包做标示信息-->
+    <meta-data
+        android:name="package_channel"
+        android:value="default" />
 </manifest>
