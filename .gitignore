@@ -6,3 +6,21 @@
 .DS_Store
 /build
 /captures
+.idea/
+Event Delivery/libs/
+Event Delivery/src/main/res/drawable/
+GetScreenSize/libs/
+GetScreenSize/src/main/res/drawable/
+Tetris 2.3/libs/
+Tetris 2.3/src/main/res/drawable/
+app/libs/
+app/src/main/res/drawable/
+mTeris/libs/
+mTeris/src/main/res/drawable/
+mTetris_2.1/libs/
+mTetris_2.1/src/main/res/drawable/
+mTetris_2.2/libs/
+mTetris_2.2/src/main/res/drawable/
+mtetris_2.0/libs/
+mtetris_2.0/src/main/res/drawable/
+tetris_2.4/libs/
