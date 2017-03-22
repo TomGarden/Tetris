@@ -8,3 +8,6 @@
 ----
 
 看几个截图吧：
+![游戏UI](https://github.com/TomGarden/Teris/blob/master/images/gameUI.png)
+![设置UI](https://github.com/TomGarden/Teris/blob/master/images/settingUI.png)
+![保存进度UI](https://github.com/TomGarden/Teris/blob/master/images/progressUI.png)
