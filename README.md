@@ -6,7 +6,6 @@
 |游戏UI|设置UI|
 |------|-----|
 |![游戏UI](/images/First.png)|![设置UI](/images/Second.png)|
-||||
 
 ## [连续两天阴天了 🍎 ](https://github.com/TomGarden/Tetris/releases/tag/0.1)
 
@@ -16,4 +15,3 @@
 |游戏UI|设置UI|保存进度UI|
 |------|-----|---------|
 |![游戏UI](/images/gameUI.png)|![设置UI](/images/settingUI.png)|![保存进度UI](/images/progressUI.png)|
-||||
